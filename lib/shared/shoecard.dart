@@ -1,8 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:onlineshop_provider/shared/appstyle.dart';
 
 class ShoeCard extends StatelessWidget {
-  const ShoeCard({super.key});
+  final String name;
+  final String imgUrl;
+  final int price;
+  const ShoeCard({
+    Key? key,
+    required this.name,
+    required this.imgUrl,
+    required this.price,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +35,10 @@ class ShoeCard extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
                       image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-33b0a0a5-c171-46cc-ad20-04a768703e47/air-zoom-pegasus-37-womens-running-shoe-Jl0bDf.jpg')),
+                          fit: BoxFit.cover, image: NetworkImage(imgUrl)),
                     ),
                   ),
                 ),
@@ -49,7 +57,7 @@ class ShoeCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         width: 170,
                         child: Text(
-                          "Nike React Infinity Run ",
+                          name,
                           style: appstyleWithHeight(
                               16, Colors.black, FontWeight.w600, 1.2),
                         ),
@@ -57,7 +65,7 @@ class ShoeCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
-                          "\$120",
+                          "\$${price.toString()}",
                           style: appstyleWithHeight(
                               18, Colors.black, FontWeight.w600, 1),
                         ),

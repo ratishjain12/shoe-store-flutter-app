@@ -62,7 +62,7 @@ class MainScreen extends StatelessWidget {
                     icon: Icon(
                       mainScreenNotifier.pageIndex == 2
                           ? Icons.favorite
-                          : Icons.favorite_outlined,
+                          : Icons.favorite_border,
                       color: Colors.white,
                     ),
                     onTap: () {
