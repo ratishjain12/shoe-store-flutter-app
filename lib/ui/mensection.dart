@@ -63,6 +63,7 @@ class _MenSectionState extends State<MenSection> {
                         itemCount: 5,
                         itemBuilder: (context, index) {
                           return ShoeCard(
+                            id: _shoes[index]['id'],
                             name: _shoes[index]["name"],
                             price: _shoes[index]["price"],
                             imgUrl: _shoes[index]["imageURL"],
