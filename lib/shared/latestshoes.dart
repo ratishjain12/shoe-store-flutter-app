@@ -1,14 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:onlineshop_provider/shared/appstyle.dart';
 
-class LatestShoeCard extends StatefulWidget {
-  const LatestShoeCard({super.key});
+class LatestShoeCard extends StatelessWidget {
+  final String imgUrl;
+  const LatestShoeCard({
+    Key? key,
+    required this.imgUrl,
+  }) : super(key: key);
 
-  @override
-  State<LatestShoeCard> createState() => _LatestShoeCardState();
-}
-
-class _LatestShoeCardState extends State<LatestShoeCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -30,12 +31,10 @@ class _LatestShoeCardState extends State<LatestShoeCard> {
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
                       image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/99a7d3cb-e40c-4474-91c2-0f2e6d231fd2/joyride-run-flyknit-womens-running-shoe-HcfnJd.jpg')),
+                          fit: BoxFit.cover, image: NetworkImage(imgUrl)),
                     ),
                   ),
                 ),
