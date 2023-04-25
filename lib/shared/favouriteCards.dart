@@ -79,7 +79,7 @@ class FavouriteCard extends StatelessWidget {
                             child: Text(
                               name,
                               style: appstyleWithHeight(
-                                  16, Colors.black, FontWeight.w600, 1.2),
+                                  16, Colors.black, FontWeight.w600, 1.3),
                             ),
                           ),
                           Padding(
