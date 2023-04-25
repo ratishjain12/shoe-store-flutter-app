@@ -62,6 +62,7 @@ class _WomenSectionState extends State<WomenSection> {
                         itemCount: 5,
                         itemBuilder: (context, index) {
                           return ShoeCard(
+                            id: _shoes[index]['id'],
                             name: _shoes[index]["name"],
                             price: _shoes[index]["price"],
                             imgUrl: _shoes[index]["imageURL"],
@@ -105,7 +106,10 @@ class _WomenSectionState extends State<WomenSection> {
                         itemBuilder: (context, index) {
                           int reverseIndex = _shoes.length - index - 1;
                           return LatestShoeCard(
-                            imgUrl: _shoes[reverseIndex]['imageURL'],
+                            id: _shoes[reverseIndex]['id'],
+                            name: _shoes[reverseIndex]["name"],
+                            price: _shoes[reverseIndex]["price"],
+                            imgUrl: _shoes[reverseIndex]["imageURL"],
                           );
                         }),
                   ),

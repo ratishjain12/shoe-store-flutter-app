@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 
-class ShoeCard extends StatelessWidget {
+class FavouriteCard extends StatelessWidget {
   final int id;
   final String name;
   final String imgUrl;
   final int price;
-  const ShoeCard({
+  const FavouriteCard({
     Key? key,
     required this.id,
     required this.name,
@@ -28,7 +28,6 @@ class ShoeCard extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.6,
             margin: const EdgeInsets.symmetric(horizontal: 10),
-            // color: Color.fromARGB(255, 242, 234, 234),
             decoration: const BoxDecoration(
                 color: Color(0xFFFAFAFA),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -69,18 +68,18 @@ class ShoeCard extends StatelessWidget {
                           )),
                     ),
                     Positioned(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      top: 245,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      top: 256,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 190,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
                               name,
                               style: appstyleWithHeight(
-                                  16, Colors.black, FontWeight.w600, 1.2),
+                                  16, Colors.black, FontWeight.w600, 1.3),
                             ),
                           ),
                           Padding(
