@@ -1,12 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/services.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/latestshoes.dart';
 import 'package:onlineshop_provider/shared/shoecard.dart';
 
-class MenSection extends StatelessWidget {
+class MenSection extends StatefulWidget {
   const MenSection({super.key});
+
+  @override
+  State<MenSection> createState() => _MenSectionState();
+}
+
+class _MenSectionState extends State<MenSection> {
+  List _shoes = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    loadJsonData();
+
+    super.initState();
+  }
+
+  Future<void> loadJsonData() async {
+    final String response = await rootBundle.loadString("assets/shoedata.json");
+    final data = await jsonDecode(response);
+    data["items"].forEach((ele) {
+      if (ele["gender"] == "MEN") {
+        _shoes.add(ele);
+      }
+    });
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +50,26 @@ class MenSection extends StatelessWidget {
                 style: appstyle(24, Colors.black, FontWeight.bold),
               ),
             ),
-            Container(
-              color: const Color(0xFFFAFAFA),
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.34,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const ShoeCard();
-                  }),
-            ),
+            _shoes.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Container(
+                    color: const Color(0xFFFAFAFA),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.34,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return ShoeCard(
+                            id: _shoes[index]['id'],
+                            name: _shoes[index]["name"],
+                            price: _shoes[index]["price"],
+                            imgUrl: _shoes[index]["imageURL"],
+                          );
+                        }),
+                  ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -49,7 +85,7 @@ class MenSection extends StatelessWidget {
                         "Show all ",
                         style: appstyle(18, Colors.black, FontWeight.bold),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward_ios,
                         size: 18,
                       ),
@@ -58,16 +94,26 @@ class MenSection extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const LatestShoeCard();
-                  }),
-            ),
+            _shoes.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          int reverseIndex = _shoes.length - index - 2;
+                          return LatestShoeCard(
+                            id: _shoes[reverseIndex]['id'],
+                            name: _shoes[reverseIndex]["name"],
+                            price: _shoes[reverseIndex]["price"],
+                            imgUrl: _shoes[reverseIndex]["imageURL"],
+                          );
+                        }),
+                  ),
           ],
         ),
       ),

@@ -18,6 +18,5 @@ class _ProfilePageState extends State<ProfilePage> {
         style: appstyle(40, Colors.black, FontWeight.bold),
       ),
     ));
-    ;
   }
 }
