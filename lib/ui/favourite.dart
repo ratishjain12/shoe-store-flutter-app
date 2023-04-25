@@ -5,6 +5,7 @@ import 'package:onlineshop_provider/shared/shoecard.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/favourites_provider.dart';
+import '../shared/favouriteCards.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({super.key});
@@ -33,10 +34,10 @@ class _FavouritePageState extends State<FavouritePage> {
                         itemCount: item.length,
                         itemBuilder: ((context, index) {
                           int key = item.keys.elementAt(index);
-                          print(key);
+
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ShoeCard(
+                            child: FavouriteCard(
                                 id: key,
                                 name: item[key].name,
                                 imgUrl: item[key].imgUrl,

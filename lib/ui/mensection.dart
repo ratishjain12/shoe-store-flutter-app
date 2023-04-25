@@ -107,7 +107,10 @@ class _MenSectionState extends State<MenSection> {
                         itemBuilder: (context, index) {
                           int reverseIndex = _shoes.length - index - 2;
                           return LatestShoeCard(
-                            imgUrl: _shoes[reverseIndex]['imageURL'],
+                            id: _shoes[reverseIndex]['id'],
+                            name: _shoes[reverseIndex]["name"],
+                            price: _shoes[reverseIndex]["price"],
+                            imgUrl: _shoes[reverseIndex]["imageURL"],
                           );
                         }),
                   ),

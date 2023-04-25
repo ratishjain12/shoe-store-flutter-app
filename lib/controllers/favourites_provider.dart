@@ -18,7 +18,6 @@ class favouriteItem {
 
 class Favourites extends ChangeNotifier {
   Map<int, favouriteItem> favouriteItems = {};
-  bool favSelect = false;
   Map<int, favouriteItem> get items {
     return {...favouriteItems};
   }
