@@ -27,6 +27,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Color(0xFAFAFAFA),
         body: SafeArea(
@@ -44,10 +46,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: height * 0.01, horizontal: width * 0.03),
+                margin: EdgeInsets.symmetric(
+                    horizontal: width * 0.2, vertical: height * 0.01),
                 decoration: const BoxDecoration(
                   color: Color(0xFFFAFAFA),
                   borderRadius: BorderRadius.all(Radius.circular(18)),
