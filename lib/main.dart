@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
-import 'package:onlineshop_provider/ui/mainscreen.dart';
+
 
 import 'package:onlineshop_provider/ui/oboardingpage.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: OnboardingPage(),
+      home: const OnboardingPage(),
     );
   }
 }
