@@ -66,6 +66,7 @@ class _WomenSectionState extends State<WomenSection> {
                             name: _shoes[index]["name"],
                             price: _shoes[index]["price"],
                             imgUrl: _shoes[index]["imageURL"],
+                            category: _shoes[index]["category"],
                           );
                         }),
                   ),
@@ -110,6 +111,7 @@ class _WomenSectionState extends State<WomenSection> {
                             name: _shoes[reverseIndex]["name"],
                             price: _shoes[reverseIndex]["price"],
                             imgUrl: _shoes[reverseIndex]["imageURL"],
+                            category: _shoes[index]["category"],
                           );
                         }),
                   ),

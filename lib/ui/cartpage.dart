@@ -18,6 +18,6 @@ class _CartPageState extends State<CartPage> {
         style: appstyle(40, Colors.black, FontWeight.bold),
       ),
     ));
-    ;
+    
   }
 }

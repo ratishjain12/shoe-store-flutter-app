@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/ui/individualshoes.dart';
 import 'package:provider/provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 
@@ -8,12 +9,13 @@ class LatestShoeCard extends StatelessWidget {
   final String name;
   final int price;
   final String imgUrl;
+  final String category;
   const LatestShoeCard({
     Key? key,
     required this.id,
     required this.name,
     required this.price,
-    required this.imgUrl,
+    required this.imgUrl, required this.category,
   }) : super(key: key);
 
   @override
@@ -24,11 +26,12 @@ class LatestShoeCard extends StatelessWidget {
       builder: ((context, value, child) {
         Map<int, dynamic> favItems = value.items;
         return GestureDetector(
-          onTap: () {},
-          child: Container(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>IndividualShoe(shoename: name, price: price, category: category, imgUrl: imgUrl)));
+          },
+          child:Container(
             width: width * 0.5,
-            margin: EdgeInsets.symmetric(horizontal: width * 0.025),
-            // color: Color.fromARGB(255, 242, 234, 234),
+            margin: EdgeInsets.only(right: width * 0.025, left: width*0.015),
             decoration: const BoxDecoration(
                 color: Color(0xFFFAFAFA),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
