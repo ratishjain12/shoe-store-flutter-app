@@ -100,8 +100,8 @@ class _IndividualShoeState extends State<IndividualShoe> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
                       child: Icon(
                         Icons.shopping_basket,
                         color: Colors.white,
