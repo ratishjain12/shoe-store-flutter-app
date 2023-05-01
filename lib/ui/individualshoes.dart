@@ -31,7 +31,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
             children: [
               Container(
                 width: double.maxFinite,
-                height: height * 0.4,
+                height: height * 0.460,
                 decoration: BoxDecoration(
                   borderRadius:
                       const BorderRadius.all(Radius.circular(40)).copyWith(
@@ -57,30 +57,33 @@ class _IndividualShoeState extends State<IndividualShoe> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.shoename,
-                  style:
-                      appstyleWithHeight(22, Colors.black, FontWeight.bold, 2),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Price:" + " \$${widget.price.toString()}",
-                      style: appstyle(18, Colors.black, FontWeight.w600),
-                    ),
-                    Text(
-                      "Category: " + "${widget.category}",
-                      style: appstyle(18, Colors.black, FontWeight.w600),
-                    )
-                  ],
-                ),
-              ],
+          Container(
+            margin: EdgeInsets.only(top: height * 0.04),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.shoename,
+                    style: appstyleWithHeight(
+                        22, Colors.black, FontWeight.bold, 2),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Price:" + " \$${widget.price.toString()}",
+                        style: appstyle(18, Colors.black, FontWeight.w600),
+                      ),
+                      Text(
+                        "Category: " + "${widget.category}",
+                        style: appstyle(18, Colors.black, FontWeight.w600),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(
@@ -88,6 +91,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
             child: GestureDetector(
               onTap: () {},
               child: Container(
+                margin: EdgeInsets.only(top: height * 0.19),
                 width: double.infinity,
                 height: 56,
                 decoration: const BoxDecoration(
