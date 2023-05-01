@@ -26,14 +26,18 @@ class _IndividualShoeState extends State<IndividualShoe> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 232, 232),
       body: SafeArea(
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Stack(
             children: [
               Container(
                 width: double.maxFinite,
                 height: height * 0.4,
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  borderRadius:
+                      const BorderRadius.all(Radius.circular(40)).copyWith(
+                    topLeft: Radius.zero,
+                    topRight: Radius.zero,
+                  ),
                   image: DecorationImage(
                       image: NetworkImage(widget.imgUrl), fit: BoxFit.cover),
                 ),
@@ -44,12 +48,40 @@ class _IndividualShoeState extends State<IndividualShoe> {
                 },
                 icon: const Icon(Icons.arrow_back_ios_new),
               ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.favorite_border),
+                ),
+              ),
             ],
           ),
-          Row(
-            children: [
-              Text(widget.shoename),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.shoename,
+                  style:
+                      appstyleWithHeight(22, Colors.black, FontWeight.bold, 2),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Price:" + " \$${widget.price.toString()}",
+                      style: appstyle(18, Colors.black, FontWeight.w600),
+                    ),
+                    Text(
+                      "Category: " + "${widget.category}",
+                      style: appstyle(18, Colors.black, FontWeight.w600),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
