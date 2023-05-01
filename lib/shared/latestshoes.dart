@@ -15,7 +15,8 @@ class LatestShoeCard extends StatelessWidget {
     required this.id,
     required this.name,
     required this.price,
-    required this.imgUrl, required this.category,
+    required this.imgUrl,
+    required this.category,
   }) : super(key: key);
 
   @override
@@ -27,11 +28,18 @@ class LatestShoeCard extends StatelessWidget {
         Map<int, dynamic> favItems = value.items;
         return GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>IndividualShoe(shoename: name, price: price, category: category, imgUrl: imgUrl)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => IndividualShoe(
+                        shoename: name,
+                        price: price,
+                        category: category,
+                        imgUrl: imgUrl)));
           },
-          child:Container(
+          child: Container(
             width: width * 0.5,
-            margin: EdgeInsets.only(right: width * 0.025, left: width*0.015),
+            margin: EdgeInsets.only(right: width * 0.025, left: width * 0.015),
             decoration: const BoxDecoration(
                 color: Color(0xFFFAFAFA),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
