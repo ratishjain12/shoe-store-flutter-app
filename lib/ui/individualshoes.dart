@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/controllers/cart_provider.dart';
+import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
+import 'package:onlineshop_provider/shared/favouriteCards.dart';
+import 'package:provider/provider.dart';
 
 class IndividualShoe extends StatefulWidget {
+  final int id;
   final String shoename;
   final int price;
   final String category;
@@ -12,7 +17,8 @@ class IndividualShoe extends StatefulWidget {
       required this.shoename,
       required this.price,
       required this.category,
-      required this.imgUrl});
+      required this.imgUrl,
+      required this.id});
 
   @override
   State<IndividualShoe> createState() => _IndividualShoeState();
@@ -23,6 +29,8 @@ class _IndividualShoeState extends State<IndividualShoe> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final cart = Provider.of<Cart>(context);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 232, 232),
       body: SafeArea(
@@ -48,12 +56,28 @@ class _IndividualShoeState extends State<IndividualShoe> {
                 },
                 icon: const Icon(Icons.arrow_back_ios_new),
               ),
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite_border),
-                ),
+              Consumer<Favourites>(
+                builder: (context, value, child) {
+                  Map<int, dynamic> favouriteItems = value.items;
+                  return Positioned(
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        value.addFavourties(
+                            id: widget.id,
+                            name: widget.shoename,
+                            imgUrl: widget.imgUrl,
+                            price: widget.price);
+                      },
+                      icon: favouriteItems.containsKey(widget.id)
+                          ? const Icon(
+                              Icons.favorite,
+                              color: Color(0xFFFF8282),
+                            )
+                          : const Icon(Icons.favorite_border),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -89,7 +113,15 @@ class _IndividualShoeState extends State<IndividualShoe> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                cart.addToCart(
+                  id: widget.id,
+                  name: widget.shoename,
+                  imgUrl: widget.imgUrl,
+                  price: widget.price,
+                  category: widget.category,
+                );
+              },
               child: Container(
                 margin: EdgeInsets.only(top: height * 0.19),
                 width: double.infinity,

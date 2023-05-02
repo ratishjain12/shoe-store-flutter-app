@@ -32,10 +32,12 @@ class LatestShoeCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => IndividualShoe(
-                        shoename: name,
-                        price: price,
-                        category: category,
-                        imgUrl: imgUrl)));
+                          shoename: name,
+                          price: price,
+                          category: category,
+                          imgUrl: imgUrl,
+                          id: id,
+                        )));
           },
           child: Container(
             width: width * 0.5,
