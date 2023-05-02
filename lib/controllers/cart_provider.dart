@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 
 class cartItem {
   final int id;
+  final String? category;
   final String name;
   final String imgUrl;
   final int price;
   final int qty;
 
-  cartItem(
-      {required this.id,
-      required this.name,
-      required this.imgUrl,
-      required this.price,
-      required this.qty});
+  cartItem({
+    required this.id,
+    required this.name,
+    required this.imgUrl,
+    required this.price,
+    required this.qty,
+    this.category,
+  });
 }
 
 class Cart extends ChangeNotifier {
@@ -26,7 +29,8 @@ class Cart extends ChangeNotifier {
       {required int id,
       required String name,
       required String imgUrl,
-      required int price}) {
+      required int price,
+      required String category}) {
     if (cartItems.containsKey(id)) {
       cartItems.update(
           id,
@@ -35,13 +39,19 @@ class Cart extends ChangeNotifier {
               name: value.name,
               imgUrl: value.imgUrl,
               price: value.price,
+              category: value.category,
               qty: value.qty + 1));
       notifyListeners();
     } else {
       cartItems.putIfAbsent(
           id,
           () => cartItem(
-              id: id, name: name, imgUrl: imgUrl, price: price, qty: 1));
+              id: id,
+              name: name,
+              imgUrl: imgUrl,
+              price: price,
+              qty: 1,
+              category: category));
       notifyListeners();
     }
   }

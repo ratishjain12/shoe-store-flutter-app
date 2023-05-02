@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
+import 'package:onlineshop_provider/ui/individualshoes.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/cart_provider.dart';
@@ -45,104 +46,125 @@ class _CartPageState extends State<CartPage> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           int key = cartItems.keys.elementAt(index);
-                          return Card(
-                            margin: const EdgeInsets.all(10.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 160.0,
-                                  child: Image(
-                                    image: NetworkImage(
-                                      cartItems[key].imgUrl,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => IndividualShoe(
+                                          shoename: cartItems[key].name,
+                                          price: cartItems[key].price,
+                                          category: cartItems[key].category,
+                                          imgUrl: cartItems[key].imgUrl,
+                                          id: key)));
+                            },
+                            child: Card(
+                              margin: const EdgeInsets.all(10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 160.0,
+                                    child: Image(
+                                      image: NetworkImage(
+                                        cartItems[key].imgUrl,
+                                      ),
+                                      fit: BoxFit.fill,
                                     ),
-                                    fit: BoxFit.fill,
                                   ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: width * 0.5,
-                                        child: Text(
-                                          cartItems[key].name,
-                                          style: appstyleWithHeight(
-                                              17,
-                                              Colors.black,
-                                              FontWeight.w600,
-                                              1.0),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: width * 0.5,
+                                          child: Text(
+                                            cartItems[key].name,
+                                            style: appstyleWithHeight(
+                                                17,
+                                                Colors.black,
+                                                FontWeight.w600,
+                                                1.0),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "\$${cartItems[key].price.toString()}",
-                                        style: appstyleWithHeight(20,
-                                            Colors.black, FontWeight.w600, 1.1),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "\$${cartItems[key].price.toString()}",
+                                          style: appstyleWithHeight(
+                                              20,
+                                              Colors.black,
+                                              FontWeight.w600,
+                                              1.1),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Qty:  ${cartItems[key].qty.toString()}",
-                                        style: appstyleWithHeight(20,
-                                            Colors.black, FontWeight.w600, 1.1),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Qty:  ${cartItems[key].qty.toString()}",
+                                          style: appstyleWithHeight(
+                                              20,
+                                              Colors.black,
+                                              FontWeight.w600,
+                                              1.1),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(left: width * 0.01),
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                right: width * 0.01),
-                                            child: ElevatedButton(
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.only(left: width * 0.01),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: width * 0.01),
+                                              child: ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  const Color(0xFFFF8282),
+                                                )),
+                                                onPressed: () {
+                                                  value.incrementFromCart(
+                                                      id: key);
+                                                },
+                                                child: const Icon(Icons.add),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: width * 0.01),
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  value.decrementFromCart(
+                                                      id: key);
+                                                },
+                                                child: const Icon(Icons.remove),
+                                              ),
+                                            ),
+                                            ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
                                                       MaterialStateProperty.all(
-                                                const Color(0xFFFF8282),
+                                                Colors.red,
                                               )),
                                               onPressed: () {
-                                                value.incrementFromCart(
-                                                    id: key);
+                                                value.deleteItem(id: key);
                                               },
-                                              child: const Icon(Icons.add),
+                                              child: const Icon(Icons.delete),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                right: width * 0.01),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                value.decrementFromCart(
-                                                    id: key);
-                                              },
-                                              child: const Icon(Icons.remove),
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                              Colors.red,
-                                            )),
-                                            onPressed: () {
-                                              value.deleteItem(id: key);
-                                            },
-                                            child: const Icon(Icons.delete),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
