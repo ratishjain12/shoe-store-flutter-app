@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -19,7 +18,8 @@ class ShoeCard extends StatelessWidget {
     required this.id,
     required this.name,
     required this.imgUrl,
-    required this.price, required this.category,
+    required this.price,
+    required this.category,
   }) : super(key: key);
 
   @override
@@ -31,11 +31,20 @@ class ShoeCard extends StatelessWidget {
         Map<int, dynamic> favItems = value.items;
         return GestureDetector(
           onTap: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>IndividualShoe(shoename: name, price: price, category: category, imgUrl: imgUrl)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => IndividualShoe(
+                          shoename: name,
+                          price: price,
+                          category: category,
+                          imgUrl: imgUrl,
+                          id: id,
+                        )));
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.6,
-            margin: const EdgeInsets.only(right: 10,left: 5),
+            margin: const EdgeInsets.only(right: 10, left: 5),
             // color: Color.fromARGB(255, 242, 234, 234),
             decoration: const BoxDecoration(
                 color: Color(0xFFFAFAFA),
@@ -45,7 +54,7 @@ class ShoeCard extends StatelessWidget {
                 Stack(
                   children: [
                     Container(
-                      height:height * 0.34,
+                      height: height * 0.34,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
@@ -78,13 +87,13 @@ class ShoeCard extends StatelessWidget {
                     ),
                     Positioned(
                       width: MediaQuery.of(context).size.width * 0.6,
-                      top: height*0.275,
+                      top: height * 0.275,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            padding: const EdgeInsets.only(left: 6,right:9 ),
-                            width: width*0.45,
+                            padding: const EdgeInsets.only(left: 6, right: 9),
+                            width: width * 0.45,
                             child: Text(
                               name,
                               style: appstyleWithHeight(

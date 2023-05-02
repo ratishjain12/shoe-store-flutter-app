@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
-
 
 import 'package:onlineshop_provider/ui/oboardingpage.dart';
 
@@ -11,6 +11,7 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MainScreenNotifier()),
     ChangeNotifierProvider(create: (context) => Favourites()),
+    ChangeNotifierProvider(create: (context) => Cart()),
   ], child: const MyApp()));
 }
 
