@@ -31,11 +31,20 @@ class _CartPageState extends State<CartPage> {
         builder: (context, value, child) {
           Map<int, dynamic> cartItems = value.items;
           return cartItems.isEmpty
-              ? Center(
-                  child: Text(
-                    "No items in Cart",
-                    style: appstyle(30, Colors.black, FontWeight.w600),
-                  ),
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Image(
+                          image: AssetImage("assets/images/cart-icon.png")),
+                    ),
+                    Center(
+                      child: Text(
+                        "No items in Cart",
+                        style: appstyle(30, Colors.black, FontWeight.w600),
+                      ),
+                    ),
+                  ],
                 )
               : Column(
                   children: [
