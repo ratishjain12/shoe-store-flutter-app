@@ -1,6 +1,19 @@
 {
   "items": [
     {
+      "id": 13,
+      "name": "Nike Joyride Dual Run",
+      "brand": "NIKE",
+      "gender": "KIDS",
+      "category": "RUNNING",
+      "price": 110,
+      "is_in_inventory": false,
+      "items_left": 3,
+      "imageURL": "https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/33888130-0320-41a1-ba53-a026decd8aa2/joyride-dual-run-big-kids-running-shoe-1HDJF8.jpg",
+      "slug": "nike-joyride-dual-run",
+      "featured": 0
+    },
+    {
       "id": 1,
       "name": "Nike React Infinity Run Flyknit",
       "brand": "NIKE",
@@ -193,19 +206,6 @@
       "items_left": 3,
       "imageURL": "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-620aeb37-1b28-44b0-9b14-5572f8cbc948/air-max-90-ltr-big-kids-shoe-hdNLQ5.jpg",
       "slug": "nike-air-max-90-ltr",
-      "featured": 0
-    },
-    {
-      "id": 13,
-      "name": "Nike Joyride Dual Run",
-      "brand": "NIKE",
-      "gender": "KIDS",
-      "category": "RUNNING",
-      "price": 110,
-      "is_in_inventory": false,
-      "items_left": 3,
-      "imageURL": "https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/33888130-0320-41a1-ba53-a026decd8aa2/joyride-dual-run-big-kids-running-shoe-1HDJF8.jpg",
-      "slug": "nike-joyride-dual-run",
       "featured": 0
     },
     {

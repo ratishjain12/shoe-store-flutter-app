@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
-
 import 'package:onlineshop_provider/ui/oboardingpage.dart';
-
 import 'package:provider/provider.dart';
 
 void main() {
