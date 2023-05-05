@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
-import 'package:onlineshop_provider/ui/mainscreen.dart';
-import 'package:onlineshop_provider/ui/onboardingpage.dart';
-
+import 'package:onlineshop_provider/ui/oboardingpage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MainScreenNotifier()),
     ChangeNotifierProvider(create: (context) => Favourites()),
+    ChangeNotifierProvider(create: (context) => Cart()),
   ], child: const MyApp()));
 }
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: OnboardingPage(),
+      home: const OnboardingPage(),
     );
   }
 }

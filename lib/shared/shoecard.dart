@@ -1,33 +1,51 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/shared/toastmessage.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
+
+import '../ui/individualshoes.dart';
 
 class ShoeCard extends StatelessWidget {
   final int id;
   final String name;
   final String imgUrl;
   final int price;
+  final String category;
   const ShoeCard({
     Key? key,
     required this.id,
     required this.name,
     required this.imgUrl,
     required this.price,
+    required this.category,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Consumer<Favourites>(
       builder: (context, value, child) {
         Map<int, dynamic> favItems = value.items;
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => IndividualShoe(
+                          shoename: name,
+                          price: price,
+                          category: category,
+                          imgUrl: imgUrl,
+                          id: id,
+                        )));
+          },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.6,
-            margin: const EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.only(right: 10, left: 5),
             // color: Color.fromARGB(255, 242, 234, 234),
             decoration: const BoxDecoration(
                 color: Color(0xFFFAFAFA),
@@ -37,7 +55,7 @@ class ShoeCard extends StatelessWidget {
                 Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.34,
+                      height: height * 0.34,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
@@ -56,11 +74,23 @@ class ShoeCard extends StatelessWidget {
                           splashRadius: 1,
                           color: const Color(0xFFFF8282),
                           onPressed: () {
-                            value.addFavourties(
-                                id: id,
-                                name: name,
-                                imgUrl: imgUrl,
-                                price: price);
+                            if (favItems.containsKey(id)) {
+                              value.addFavourties(
+                                  id: id,
+                                  name: name,
+                                  imgUrl: imgUrl,
+                                  price: price);
+                              ToastMessage.showToast(context,
+                                  "Removed from favourites", Colors.red);
+                            } else {
+                              value.addFavourties(
+                                  id: id,
+                                  name: name,
+                                  imgUrl: imgUrl,
+                                  price: price);
+                              ToastMessage.showToast(
+                                  context, "Added to favourites", Colors.green);
+                            }
                           },
                           icon: Icon(
                             favItems.containsKey(id)
@@ -70,17 +100,17 @@ class ShoeCard extends StatelessWidget {
                     ),
                     Positioned(
                       width: MediaQuery.of(context).size.width * 0.6,
-                      top: 245,
+                      top: height * 0.275,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            width: 190,
+                            padding: const EdgeInsets.only(left: 6, right: 9),
+                            width: width * 0.45,
                             child: Text(
                               name,
                               style: appstyleWithHeight(
-                                  16, Colors.black, FontWeight.w600, 1.2),
+                                  16, Colors.black, FontWeight.w600, 1.0),
                             ),
                           ),
                           Padding(
