@@ -9,4 +9,9 @@ class MainScreenNotifier extends ChangeNotifier {
     _pageIndex = newIndex;
     notifyListeners();
   }
+
+  void changeToSearch() {
+    _pageIndex = 1;
+    notifyListeners();
+  }
 }

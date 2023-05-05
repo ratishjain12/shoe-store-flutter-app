@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/latestshoes.dart';
 import 'package:onlineshop_provider/shared/shoecard.dart';
+import 'package:onlineshop_provider/ui/searchpage.dart';
+import 'package:provider/provider.dart';
 
 class MenSection extends StatefulWidget {
   const MenSection({super.key});
@@ -37,6 +40,7 @@ class _MenSectionState extends State<MenSection> {
 
   @override
   Widget build(BuildContext context) {
+    final nav = Provider.of<MainScreenNotifier>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       body: SingleChildScrollView(
@@ -80,17 +84,26 @@ class _MenSectionState extends State<MenSection> {
                     "Latest Shoes",
                     style: appstyle(18, Colors.black, FontWeight.bold),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Show all ",
-                        style: appstyle(18, Colors.black, FontWeight.bold),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const SearchPage()));
+                      nav.changeToSearch();
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "Show all ",
+                          style: appstyle(18, Colors.black, FontWeight.bold),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 18,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

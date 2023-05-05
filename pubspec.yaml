@@ -29,9 +29,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  anim_search_bar: ^2.0.3
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_staggered_grid_view: ^0.6.2
   google_fonts: ^4.0.3
   provider: ^6.0.5
   smooth_page_indicator: ^1.1.0
@@ -53,7 +55,6 @@ flutter:
   assets:
     - assets/shoedata.json
     - assets/images/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
