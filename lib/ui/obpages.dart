@@ -83,7 +83,7 @@ class PageThree extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.arrow_forward),
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => MainScreen()));
               },
             ),
