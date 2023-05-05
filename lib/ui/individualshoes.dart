@@ -3,20 +3,21 @@ import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/favouriteCards.dart';
+import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:provider/provider.dart';
 
 class IndividualShoe extends StatefulWidget {
   final int id;
   final String shoename;
   final int price;
-  final String category;
+  final String? category;
   final String imgUrl;
 
   const IndividualShoe(
       {super.key,
       required this.shoename,
       required this.price,
-      required this.category,
+      this.category,
       required this.imgUrl,
       required this.id});
 
@@ -63,11 +64,23 @@ class _IndividualShoeState extends State<IndividualShoe> {
                     right: 0,
                     child: IconButton(
                       onPressed: () {
-                        value.addFavourties(
-                            id: widget.id,
-                            name: widget.shoename,
-                            imgUrl: widget.imgUrl,
-                            price: widget.price);
+                        if (favouriteItems.containsKey(widget.id)) {
+                          value.addFavourties(
+                              id: widget.id,
+                              name: widget.shoename,
+                              imgUrl: widget.imgUrl,
+                              price: widget.price);
+                          ToastMessage.showToast(
+                              context, "Removed from favourites", Colors.red);
+                        } else {
+                          value.addFavourties(
+                              id: widget.id,
+                              name: widget.shoename,
+                              imgUrl: widget.imgUrl,
+                              price: widget.price);
+                          ToastMessage.showToast(
+                              context, "Added to favourites", Colors.green);
+                        }
                       },
                       icon: favouriteItems.containsKey(widget.id)
                           ? const Icon(
@@ -119,8 +132,10 @@ class _IndividualShoeState extends State<IndividualShoe> {
                   name: widget.shoename,
                   imgUrl: widget.imgUrl,
                   price: widget.price,
-                  category: widget.category,
+                  category: widget.category!,
                 );
+                ToastMessage.showToast(
+                    context, "Item added to cart!!", const Color(0xFFFF8282));
               },
               child: Container(
                 margin: EdgeInsets.only(top: height * 0.19),
