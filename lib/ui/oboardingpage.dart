@@ -30,7 +30,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: Stack(
           children: [
             PageView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 controller: _pageController,
                 itemBuilder: (BuildContext context, int index) {
                   return _pages[index % _pages.length];
@@ -46,7 +46,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       child: SmoothPageIndicator(
                     controller: _pageController,
                     count: _pages.length,
-                    effect: ExpandingDotsEffect(
+                    effect: const ExpandingDotsEffect(
                         dotColor: Colors.white,
                         activeDotColor: Color(0xffff8282)),
                   )),

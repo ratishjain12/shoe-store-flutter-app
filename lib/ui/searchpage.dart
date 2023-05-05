@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:onlineshop_provider/shared/appstyle.dart';
+
 import 'package:onlineshop_provider/shared/searchpics.dart';
 
 class SearchPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   List _items = [];
 
+  TextEditingController searchText = new TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -33,45 +35,47 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    searchText.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: width * 0.05, right: width * 0.05),
-            margin: EdgeInsets.only(
-                top: height * 0.035,
-                left: width * 0.03,
-                right: width * 0.03,
-                bottom: height * 0.01),
-            height: height * 0.05,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.grey, blurRadius: 4, spreadRadius: 1)
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: AnimSearchBar(
+                rtl: true,
+                width: 400,
+                textController: searchText,
+                onSuffixTap: () {},
+                onSubmitted: (val) {},
+              ),
             ),
-            child: TextFormField(
-              decoration: InputDecoration(border: InputBorder.none),
+            Expanded(
+              child: MasonryGridView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: _items.length,
+                  gridDelegate:
+                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return SearchPics(
+                        imgurl: _items[index]['imageURL'],
+                        id: _items[index]['id'],
+                        name: _items[index]['name'],
+                        price: _items[index]['price']);
+                  }),
             ),
-          ),
-          Expanded(
-            child: MasonryGridView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: _items.length,
-                gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  return SearchPics(
-                      imgurl: _items[index]['imageURL'],
-                      id: _items[index]['id'],
-                      name: _items[index]['name'],
-                      price: _items[index]['price']);
-                }),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
