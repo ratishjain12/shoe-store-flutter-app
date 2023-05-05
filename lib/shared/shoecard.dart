@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/shared/toastmessage.dart';
 
 import 'package:provider/provider.dart';
 
@@ -73,11 +74,23 @@ class ShoeCard extends StatelessWidget {
                           splashRadius: 1,
                           color: const Color(0xFFFF8282),
                           onPressed: () {
-                            value.addFavourties(
-                                id: id,
-                                name: name,
-                                imgUrl: imgUrl,
-                                price: price);
+                            if (favItems.containsKey(id)) {
+                              value.addFavourties(
+                                  id: id,
+                                  name: name,
+                                  imgUrl: imgUrl,
+                                  price: price);
+                              ToastMessage.showToast(context,
+                                  "Removed from favourites", Colors.red);
+                            } else {
+                              value.addFavourties(
+                                  id: id,
+                                  name: name,
+                                  imgUrl: imgUrl,
+                                  price: price);
+                              ToastMessage.showToast(
+                                  context, "Added to favourites", Colors.green);
+                            }
                           },
                           icon: Icon(
                             favItems.containsKey(id)

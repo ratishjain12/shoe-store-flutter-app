@@ -1,9 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:provider/provider.dart';
 
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
+
+import '../ui/individualshoes.dart';
 
 class FavouriteCard extends StatelessWidget {
   final int id;
@@ -24,7 +26,13 @@ class FavouriteCard extends StatelessWidget {
       builder: (context, value, child) {
         Map<int, dynamic> favItems = value.items;
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => IndividualShoe(
+                        shoename: name, price: price, imgUrl: imgUrl, id: id)));
+          },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.6,
             margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -55,11 +63,23 @@ class FavouriteCard extends StatelessWidget {
                           splashRadius: 1,
                           color: const Color(0xFFFF8282),
                           onPressed: () {
-                            value.addFavourties(
-                                id: id,
-                                name: name,
-                                imgUrl: imgUrl,
-                                price: price);
+                            if (favItems.containsKey(id)) {
+                              value.addFavourties(
+                                  id: id,
+                                  name: name,
+                                  imgUrl: imgUrl,
+                                  price: price);
+                              ToastMessage.showToast(context,
+                                  "Removed from favourites", Colors.red);
+                            } else {
+                              value.addFavourties(
+                                  id: id,
+                                  name: name,
+                                  imgUrl: imgUrl,
+                                  price: price);
+                              ToastMessage.showToast(
+                                  context, "Added to favourites", Colors.green);
+                            }
                           },
                           icon: Icon(
                             favItems.containsKey(id)
@@ -69,7 +89,7 @@ class FavouriteCard extends StatelessWidget {
                     ),
                     Positioned(
                       width: MediaQuery.of(context).size.width * 0.85,
-                      top: 256,
+                      top: MediaQuery.of(context).size.height * 0.288,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
