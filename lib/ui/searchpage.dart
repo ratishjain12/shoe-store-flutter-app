@@ -16,13 +16,31 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   List _items = [];
+  List _foundItems = [];
 
   TextEditingController searchText = new TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     loadJson();
+    _foundItems = _items;
     super.initState();
+  }
+
+  void _runFilter(String keyWord) {
+    List results = [];
+    if (keyWord.isEmpty) {
+      results = _items;
+    } else {
+      results = _items
+          .where((element) =>
+              element["name"].toLowerCase().contains(keyWord.toLowerCase()))
+          .toList();
+    }
+
+    setState(() {
+      _foundItems = results;
+    });
   }
 
   Future<void> loadJson() async {
@@ -56,22 +74,22 @@ class _SearchPageState extends State<SearchPage> {
                 width: 400,
                 textController: searchText,
                 onSuffixTap: () {},
-                onSubmitted: (val) {},
+                onSubmitted: (val) => _runFilter(val),
               ),
             ),
             Expanded(
               child: MasonryGridView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: _items.length,
+                  itemCount: _foundItems.length,
                   gridDelegate:
                       const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2),
                   itemBuilder: (context, index) {
                     return SearchPics(
-                        imgurl: _items[index]['imageURL'],
-                        id: _items[index]['id'],
-                        name: _items[index]['name'],
-                        price: _items[index]['price']);
+                        imgurl: _foundItems[index]['imageURL'],
+                        id: _foundItems[index]['id'],
+                        name: _foundItems[index]['name'],
+                        price: _foundItems[index]['price']);
                   }),
             ),
           ],
