@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:hive/hive.dart';
 
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/toastmessage.dart';
@@ -21,6 +22,20 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   Map<String, dynamic>? paymentIntent;
+  Map<dynamic, dynamic> cartItems = {};
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  loadCartItems(Map<dynamic, dynamic> mp) async {
+    var cart = await Hive.openBox("cartBox");
+    cart.putAll(mp);
+    setState(() {
+      cartItems = cart.toMap();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -35,201 +50,196 @@ class _CartPageState extends State<CartPage> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Consumer<Cart>(
-          builder: (context, value, child) {
-            Map<int, dynamic> cartItems = value.items;
-            return cartItems.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Center(
-                        child: Image(
-                            image: AssetImage("assets/images/cart-icon.png")),
+      body: Consumer<Cart>(
+        builder: (context, value, child) {
+          loadCartItems(value.items);
+          return cartItems.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Image(
+                          image: AssetImage("assets/images/cart-icon.png")),
+                    ),
+                    Center(
+                      child: Text(
+                        "No items in Cart",
+                        style: appstyle(30, Colors.black, FontWeight.w600),
                       ),
-                      Center(
-                        child: Text(
-                          "No items in Cart",
-                          style: appstyle(30, Colors.black, FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: height * 0.01),
-                        height: height * 0.68,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            int key = cartItems.keys.elementAt(index);
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => IndividualShoe(
-                                            shoename: cartItems[key].name,
-                                            price: cartItems[key].price,
-                                            category: cartItems[key].category,
-                                            imgUrl: cartItems[key].imgUrl,
-                                            id: key)));
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 160.0,
-                                      child: Image(
-                                        image: NetworkImage(
-                                          cartItems[key].imgUrl,
-                                        ),
-                                        fit: BoxFit.fill,
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: height * 0.01),
+                      height: height * 0.68,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          int key = cartItems.keys.elementAt(index);
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => IndividualShoe(
+                                          shoename: cartItems[key].name,
+                                          price: cartItems[key].price,
+                                          category: cartItems[key].category,
+                                          imgUrl: cartItems[key].imgUrl,
+                                          id: key)));
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 160.0,
+                                    child: Image(
+                                      image: NetworkImage(
+                                        cartItems[key].imgUrl,
                                       ),
+                                      fit: BoxFit.fill,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: width * 0.5,
-                                            child: Text(
-                                              cartItems[key].name,
-                                              style: appstyleWithHeight(
-                                                  17,
-                                                  Colors.black,
-                                                  FontWeight.w600,
-                                                  1.0),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: width * 0.5,
                                           child: Text(
-                                            "\$${cartItems[key].price.toString()}",
+                                            cartItems[key].name,
                                             style: appstyleWithHeight(
-                                                20,
+                                                17,
                                                 Colors.black,
                                                 FontWeight.w600,
-                                                1.1),
+                                                1.0),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Qty:  ${cartItems[key].qty.toString()}",
-                                            style: appstyleWithHeight(
-                                                20,
-                                                Colors.black,
-                                                FontWeight.w600,
-                                                1.1),
-                                          ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "\$${cartItems[key].price.toString()}",
+                                          style: appstyleWithHeight(
+                                              20,
+                                              Colors.black,
+                                              FontWeight.w600,
+                                              1.1),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: width * 0.01),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: width * 0.01),
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    const Color(0xFFFF8282),
-                                                  )),
-                                                  onPressed: () {
-                                                    value.incrementFromCart(
-                                                        id: key);
-                                                  },
-                                                  child: const Icon(Icons.add),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: width * 0.01),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    value.decrementFromCart(
-                                                        id: key);
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.remove),
-                                                ),
-                                              ),
-                                              ElevatedButton(
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Qty:  ${cartItems[key].qty.toString()}",
+                                          style: appstyleWithHeight(
+                                              20,
+                                              Colors.black,
+                                              FontWeight.w600,
+                                              1.1),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.only(left: width * 0.01),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: width * 0.01),
+                                              child: ElevatedButton(
                                                 style: ButtonStyle(
                                                     backgroundColor:
                                                         MaterialStateProperty
                                                             .all(
-                                                  Colors.red,
+                                                  const Color(0xFFFF8282),
                                                 )),
                                                 onPressed: () {
-                                                  value.deleteItem(id: key);
+                                                  value.incrementFromCart(
+                                                      id: key);
                                                 },
-                                                child: const Icon(Icons.delete),
+                                                child: const Icon(Icons.add),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: width * 0.01),
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  value.decrementFromCart(
+                                                      id: key);
+                                                },
+                                                child: const Icon(Icons.remove),
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                Colors.red,
+                                              )),
+                                              onPressed: () async {
+                                                value.deleteItem(id: key);
+                                              },
+                                              child: const Icon(Icons.delete),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                          itemCount: cartItems.length,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: width * 0.03),
-                        padding: EdgeInsets.symmetric(vertical: height * 0.01),
-                        width: double.maxFinite,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFF8282),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Cart Total: \$${value.totalPay.toString()}",
-                              style:
-                                  appstyle(20, Colors.white, FontWeight.w600),
                             ),
-                            MaterialButton(
-                              onPressed: () async {
-                                int price = value.totalPay.toInt();
-                                makePayment(price.toString(), "INR");
-                              },
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width * 0.2,
-                                  vertical: height * 0.01),
-                              color: Colors.white,
-                              child: Text(
-                                "Checkout",
-                                style:
-                                    appstyle(18, Colors.black, FontWeight.w500),
-                              ),
-                            )
-                          ],
-                        ),
+                          );
+                        },
+                        itemCount: cartItems.length,
                       ),
-                    ],
-                  );
-          },
-        ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: width * 0.03),
+                      padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                      width: double.maxFinite,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFF8282),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Cart Total: \$${value.totalPay.toString()}",
+                            style: appstyle(20, Colors.white, FontWeight.w600),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              int price = value.totalPay.toInt();
+                              makePayment(price.toString(), "INR");
+                            },
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.2,
+                                vertical: height * 0.01),
+                            color: Colors.white,
+                            child: Text(
+                              "Checkout",
+                              style:
+                                  appstyle(18, Colors.black, FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+        },
       ),
     );
   }
