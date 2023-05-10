@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
@@ -134,6 +135,8 @@ class _IndividualShoeState extends State<IndividualShoe> {
                   price: widget.price,
                   category: widget.category!,
                 );
+
+                // ignore: use_build_context_synchronously
                 ToastMessage.showToast(
                     context, "Item added to cart!!", const Color(0xFFFF8282));
               },

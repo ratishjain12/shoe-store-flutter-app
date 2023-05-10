@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:hive/hive.dart';
 import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
+
 import 'package:onlineshop_provider/ui/oboardingpage.dart';
 import 'package:onlineshop_provider/utils/appconstants.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter<CartItem>(CartItemAdapter());
   Stripe.publishableKey = publishableKey;
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MainScreenNotifier()),
