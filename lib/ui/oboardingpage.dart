@@ -16,11 +16,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final _arrowColor = Color(0xffff8282).withOpacity(0.8);
   int _activePage = 0;
 
-  final List<Widget> _pages = [
-    const PageOne(),
-    const PageTwo(),
-    const PageThree()
-  ];
+  List<Widget> _pages = [const PageOne(), const PageTwo(), const PageThree()];
 
   @override
   Widget build(BuildContext context) {

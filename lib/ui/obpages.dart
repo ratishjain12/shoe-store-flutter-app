@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:onlineshop_provider/controllers/onboarding_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/ui/mainscreen.dart';
 import 'package:provider/provider.dart';
@@ -86,6 +85,8 @@ class PageThree extends StatefulWidget {
 }
 
 class _PageThreeState extends State<PageThree> {
+  var box = Hive.box('onBoarding');
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -111,24 +112,17 @@ class _PageThreeState extends State<PageThree> {
               'Your products are delivered home \n safely & securely.',
               style: appstyle(15, Colors.black, FontWeight.normal),
             ),
-            Consumer<Onboarding>(
-              builder: (context, value, child) {
-                // value.onboard();
-                return Container(
-                  margin: EdgeInsets.symmetric(vertical: 15),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      value.changeOnboarding(true);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainScreen()));
-                    },
-                  ),
-                );
-              },
-            )
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_forward),
+                onPressed: () {
+                  box.put("status", true);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => MainScreen()));
+                },
+              ),
+            ),
           ],
         ),
       )),
