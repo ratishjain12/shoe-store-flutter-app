@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
 
@@ -13,6 +14,7 @@ import '../shared/bottomtabs.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
+
   List<Widget> pageList = const [
     HomePage(),
     SearchPage(),
@@ -20,6 +22,7 @@ class MainScreen extends StatelessWidget {
     CartPage(),
     ProfilePage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MainScreenNotifier>(
