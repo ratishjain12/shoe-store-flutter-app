@@ -33,94 +33,81 @@ class CartItem {
 }
 
 class Cart extends ChangeNotifier {
-  Map<int, CartItem> cartItems = {};
+  List _inventoryList = <CartItem>[];
+  List get inventoryList => _inventoryList;
 
-  Map<int, CartItem> get items {
-    return {...cartItems};
-  }
+  // void addToCart(
+  //     {required int id,
+  //     required String name,
+  //     required String imgUrl,
+  //     required int price,
+  //     required String category}) async {
+  //   var cart = await Hive.openBox("cartBox");
+  //   if (cartItems.containsKey(id)) {
+  //     cartItems.update(
+  //         id,
+  //         (value) => CartItem(
+  //             id: value.id,
+  //             name: value.name,
+  //             imgUrl: value.imgUrl,
+  //             price: value.price,
+  //             category: value.category,
+  //             qty: value.qty + 1));
 
-  void addToCart(
-      {required int id,
-      required String name,
-      required String imgUrl,
-      required int price,
-      required String category}) async {
-    var cart = await Hive.openBox("cartBox");
-    if (cartItems.containsKey(id)) {
-      cartItems.update(
-          id,
-          (value) => CartItem(
-              id: value.id,
-              name: value.name,
-              imgUrl: value.imgUrl,
-              price: value.price,
-              category: value.category,
-              qty: value.qty + 1));
+  //     cart.putAt(id, cartItems[id]);
+  //     notifyListeners();
+  //   } else {
+  //     cartItems.putIfAbsent(
+  //         id,
+  //         () => CartItem(
+  //             id: id,
+  //             name: name,
+  //             imgUrl: imgUrl,
+  //             price: price,
+  //             qty: 1,
+  //             category: category));
+  //     cart.put(id, cartItems[id]);
+  //     notifyListeners();
+  //   }
+  // }
 
-      cart.putAt(id, cartItems[id]);
-      notifyListeners();
-    } else {
-      cartItems.putIfAbsent(
-          id,
-          () => CartItem(
-              id: id,
-              name: name,
-              imgUrl: imgUrl,
-              price: price,
-              qty: 1,
-              category: category));
-      cart.put(id, cartItems[id]);
-      notifyListeners();
-    }
-  }
+  addItem(CartItem item) async {
+    var box = await Hive.openBox<CartItem>('inventory');
 
-  void decrementFromCart({required int id}) async {
-    var cart = await Hive.openBox("cartBox");
-    cartItems.update(id, (value) {
-      return CartItem(
-          id: value.id,
-          name: value.name,
-          imgUrl: value.imgUrl,
-          price: value.price,
-          qty: value.qty - 1);
-    });
+    box.add(item);
 
-    if (cartItems.containsKey(id)) {
-      if (cartItems[id]!.qty == 0) {
-        cartItems.remove(id);
-        cart.delete(id);
-      } else {
-        cart.putAt(id, cartItems);
-      }
-    }
     notifyListeners();
   }
 
-  void incrementFromCart({required int id}) async {
-    var cart = await Hive.openBox("cartBox");
-    cartItems.update(
-        id,
-        (value) => CartItem(
-            id: value.id,
-            name: value.name,
-            imgUrl: value.imgUrl,
-            price: value.price,
-            qty: value.qty + 1));
-    cart.putAt(id, cartItems);
+  getItem() async {
+    final box = await Hive.openBox<CartItem>('inventory');
+
+    _inventoryList = box.values.toList();
+
     notifyListeners();
   }
 
-  void deleteItem({required int id}) async {
-    var cart = await Hive.openBox("cartBox");
-    cart.delete(id);
-    cartItems.remove(id);
+  updateItem(int index, CartItem inventory) {
+    final box = Hive.box<CartItem>('inventory');
+
+    box.putAt(index, inventory);
+
+    notifyListeners();
+  }
+
+  deleteItem(int index) {
+    final box = Hive.box<CartItem>('inventory');
+
+    box.deleteAt(index);
+
+    getItem();
     notifyListeners();
   }
 
   double get totalPay {
     double amount = 0;
-    cartItems.forEach((key, value) {
-      amount += value.price * value.qty;
+    inventoryList.forEach((element) {
+      amount += element.price * element.qty;
     });
     return amount;
   }
