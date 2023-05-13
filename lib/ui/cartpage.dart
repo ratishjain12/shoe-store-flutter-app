@@ -22,22 +22,15 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   Map<String, dynamic>? paymentIntent;
-  Map<dynamic, dynamic> cartItems = {};
+
   @override
   void initState() {
     super.initState();
   }
 
-  loadCartItems(Map<dynamic, dynamic> mp) async {
-    var cart = await Hive.openBox("cartBox");
-    cart.putAll(mp);
-    setState(() {
-      cartItems = cart.toMap();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    context.watch<Cart>().getItem();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -52,8 +45,7 @@ class _CartPageState extends State<CartPage> {
       ),
       body: Consumer<Cart>(
         builder: (context, value, child) {
-          loadCartItems(value.items);
-          return cartItems.isEmpty
+          return value.inventoryList.isEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -77,18 +69,18 @@ class _CartPageState extends State<CartPage> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          int key = cartItems.keys.elementAt(index);
+                          CartItem inv = value.inventoryList[index];
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => IndividualShoe(
-                                          shoename: cartItems[key].name,
-                                          price: cartItems[key].price,
-                                          category: cartItems[key].category,
-                                          imgUrl: cartItems[key].imgUrl,
-                                          id: key)));
+                                          shoename: inv.name,
+                                          price: inv.price,
+                                          category: inv.category,
+                                          imgUrl: inv.imgUrl,
+                                          id: inv.id)));
                             },
                             child: Container(
                               margin: const EdgeInsets.all(10.0),
@@ -99,7 +91,7 @@ class _CartPageState extends State<CartPage> {
                                     height: 160.0,
                                     child: Image(
                                       image: NetworkImage(
-                                        cartItems[key].imgUrl,
+                                        inv.imgUrl,
                                       ),
                                       fit: BoxFit.fill,
                                     ),
@@ -115,7 +107,7 @@ class _CartPageState extends State<CartPage> {
                                         child: SizedBox(
                                           width: width * 0.5,
                                           child: Text(
-                                            cartItems[key].name,
+                                            inv.name,
                                             style: appstyleWithHeight(
                                                 17,
                                                 Colors.black,
@@ -127,7 +119,7 @@ class _CartPageState extends State<CartPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "\$${cartItems[key].price.toString()}",
+                                          "\$${inv.price.toString()}",
                                           style: appstyleWithHeight(
                                               20,
                                               Colors.black,
@@ -138,7 +130,7 @@ class _CartPageState extends State<CartPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "Qty:  ${cartItems[key].qty.toString()}",
+                                          "Qty:  ${inv.qty.toString()}",
                                           style: appstyleWithHeight(
                                               20,
                                               Colors.black,
@@ -162,8 +154,13 @@ class _CartPageState extends State<CartPage> {
                                                   const Color(0xFFFF8282),
                                                 )),
                                                 onPressed: () {
-                                                  value.incrementFromCart(
-                                                      id: key);
+                                                  final data = CartItem(
+                                                      id: inv.id,
+                                                      name: inv.name,
+                                                      imgUrl: inv.imgUrl,
+                                                      price: inv.price,
+                                                      qty: inv.qty + 1);
+                                                  value.updateItem(index, data);
                                                 },
                                                 child: const Icon(Icons.add),
                                               ),
@@ -173,8 +170,13 @@ class _CartPageState extends State<CartPage> {
                                                   right: width * 0.01),
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  value.decrementFromCart(
-                                                      id: key);
+                                                  final data = CartItem(
+                                                      id: inv.id,
+                                                      name: inv.name,
+                                                      imgUrl: inv.imgUrl,
+                                                      price: inv.price,
+                                                      qty: inv.qty - 1);
+                                                  value.updateItem(index, data);
                                                 },
                                                 child: const Icon(Icons.remove),
                                               ),
@@ -185,8 +187,8 @@ class _CartPageState extends State<CartPage> {
                                                       MaterialStateProperty.all(
                                                 Colors.red,
                                               )),
-                                              onPressed: () async {
-                                                value.deleteItem(id: key);
+                                              onPressed: () {
+                                                value.deleteItem(index);
                                               },
                                               child: const Icon(Icons.delete),
                                             ),
@@ -200,7 +202,7 @@ class _CartPageState extends State<CartPage> {
                             ),
                           );
                         },
-                        itemCount: cartItems.length,
+                        itemCount: value.inventoryList.length,
                       ),
                     ),
                     Container(

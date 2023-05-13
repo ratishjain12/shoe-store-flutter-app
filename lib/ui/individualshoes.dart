@@ -29,9 +29,8 @@ class IndividualShoe extends StatefulWidget {
 class _IndividualShoeState extends State<IndividualShoe> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final cart = Provider.of<Cart>(context);
+    final cart = Provider.of<Cart>(context, listen: false);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 232, 232),
@@ -128,14 +127,13 @@ class _IndividualShoeState extends State<IndividualShoe> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
               onTap: () {
-                cart.addToCart(
-                  id: widget.id,
-                  name: widget.shoename,
-                  imgUrl: widget.imgUrl,
-                  price: widget.price,
-                  category: widget.category!,
-                );
-
+                final data = CartItem(
+                    id: widget.id,
+                    name: widget.shoename,
+                    imgUrl: widget.imgUrl,
+                    price: widget.price,
+                    qty: 1);
+                cart.addItem(data);
                 // ignore: use_build_context_synchronously
                 ToastMessage.showToast(
                     context, "Item added to cart!!", const Color(0xFFFF8282));
