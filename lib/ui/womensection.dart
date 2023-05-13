@@ -5,6 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/latestshoes.dart';
 import 'package:onlineshop_provider/shared/shoecard.dart';
+import 'package:provider/provider.dart';
+
+import '../controllers/favourites_provider.dart';
 
 class WomenSection extends StatefulWidget {
   const WomenSection({super.key});
@@ -36,6 +39,7 @@ class _WomenSectionState extends State<WomenSection> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<Favourites>().getItem();
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       body: SingleChildScrollView(

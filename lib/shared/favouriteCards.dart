@@ -7,7 +7,7 @@ import 'package:onlineshop_provider/shared/appstyle.dart';
 
 import '../ui/individualshoes.dart';
 
-class FavouriteCard extends StatelessWidget {
+class FavouriteCard extends StatefulWidget {
   final int id;
   final String name;
   final String imgUrl;
@@ -21,17 +21,24 @@ class FavouriteCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<FavouriteCard> createState() => _FavouriteCardState();
+}
+
+class _FavouriteCardState extends State<FavouriteCard> {
+  @override
   Widget build(BuildContext context) {
     return Consumer<Favourites>(
       builder: (context, value, child) {
-        Map<int, dynamic> favItems = value.items;
         return GestureDetector(
           onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => IndividualShoe(
-                        shoename: name, price: price, imgUrl: imgUrl, id: id)));
+                        shoename: widget.name,
+                        price: widget.price,
+                        imgUrl: widget.imgUrl,
+                        id: widget.id)));
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.6,
@@ -53,7 +60,8 @@ class FavouriteCard extends StatelessWidget {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(20)),
                           image: DecorationImage(
-                              fit: BoxFit.cover, image: NetworkImage(imgUrl)),
+                              fit: BoxFit.cover,
+                              image: NetworkImage(widget.imgUrl)),
                         ),
                       ),
                     ),
@@ -63,29 +71,24 @@ class FavouriteCard extends StatelessWidget {
                           splashRadius: 1,
                           color: const Color(0xFFFF8282),
                           onPressed: () {
-                            if (favItems.containsKey(id)) {
-                              value.addFavourties(
-                                  id: id,
-                                  name: name,
-                                  imgUrl: imgUrl,
-                                  price: price);
-                              ToastMessage.showToast(context,
-                                  "Removed from favourites", Colors.red);
+                            if (value.favouriteKeys.contains(widget.id)) {
+                              value.deleteItem(widget.id);
                             } else {
-                              value.addFavourties(
-                                  id: id,
-                                  name: name,
-                                  imgUrl: imgUrl,
-                                  price: price);
-                              ToastMessage.showToast(
-                                  context, "Added to favourites", Colors.green);
+                              final data = FavouriteItem(
+                                id: widget.id,
+                                name: widget.name,
+                                imgUrl: widget.imgUrl,
+                                price: widget.price,
+                              );
+                              value.addItem(data, widget.id);
                             }
                           },
-                          icon: Icon(
-                            favItems.containsKey(id)
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                          )),
+                          icon: value.favouriteKeys.contains(widget.id)
+                              ? const Icon(
+                                  Icons.favorite,
+                                  color: Color(0xFFFF8282),
+                                )
+                              : const Icon(Icons.favorite_border)),
                     ),
                     Positioned(
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -97,7 +100,7 @@ class FavouriteCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
-                              name,
+                              widget.name,
                               style: appstyleWithHeight(
                                   16, Colors.black, FontWeight.w600, 1.3),
                             ),
@@ -105,7 +108,7 @@ class FavouriteCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Text(
-                              "\$${price.toString()}",
+                              "\$${widget.price.toString()}",
                               style: appstyleWithHeight(
                                   18, Colors.black, FontWeight.w600, 1),
                             ),

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../ui/individualshoes.dart';
 
-class SearchPics extends StatelessWidget {
+class SearchPics extends StatefulWidget {
   String imgurl;
   int id;
   int price;
@@ -18,10 +18,14 @@ class SearchPics extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<SearchPics> createState() => _SearchPicsState();
+}
+
+class _SearchPicsState extends State<SearchPics> {
+  @override
   Widget build(BuildContext context) {
     return Consumer<Favourites>(
       builder: (context, value, child) {
-        Map<int, dynamic> favItems = value.items;
         return Stack(children: [
           InkWell(
             onTap: () {
@@ -29,29 +33,39 @@ class SearchPics extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => IndividualShoe(
-                            shoename: name,
-                            price: price,
-                            imgUrl: imgurl,
-                            id: id,
+                            shoename: widget.name,
+                            price: widget.price,
+                            imgUrl: widget.imgurl,
+                            id: widget.id,
                           )));
             },
             child: Padding(
               padding: const EdgeInsets.all(2),
-              child: Image.network(imgurl),
+              child: Image.network(widget.imgurl),
             ),
           ),
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              splashRadius: 1,
-              color: const Color(0xffff8282),
               onPressed: () {
-                value.addFavourties(
-                    id: id, name: name, imgUrl: imgurl, price: price);
+                if (value.favouriteKeys.contains(widget.id)) {
+                  value.deleteItem(widget.id);
+                } else {
+                  final data = FavouriteItem(
+                    id: widget.id,
+                    name: widget.name,
+                    imgUrl: widget.imgurl,
+                    price: widget.price,
+                  );
+                  value.addItem(data, widget.id);
+                }
               },
-              icon: Icon(favItems.containsKey(id)
-                  ? Icons.favorite
-                  : Icons.favorite_border),
+              icon: value.favouriteKeys.contains(widget.id)
+                  ? const Icon(
+                      Icons.favorite,
+                      color: Color(0xFFFF8282),
+                    )
+                  : const Icon(Icons.favorite_border),
             ),
           )
         ]);

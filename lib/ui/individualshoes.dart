@@ -31,7 +31,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final cart = Provider.of<Cart>(context, listen: false);
-
+    context.watch<Favourites>().getItem();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 232, 232),
       body: SafeArea(
@@ -59,30 +59,23 @@ class _IndividualShoeState extends State<IndividualShoe> {
               ),
               Consumer<Favourites>(
                 builder: (context, value, child) {
-                  Map<int, dynamic> favouriteItems = value.items;
                   return Positioned(
                     right: 0,
                     child: IconButton(
                       onPressed: () {
-                        if (favouriteItems.containsKey(widget.id)) {
-                          value.addFavourties(
-                              id: widget.id,
-                              name: widget.shoename,
-                              imgUrl: widget.imgUrl,
-                              price: widget.price);
-                          ToastMessage.showToast(
-                              context, "Removed from favourites", Colors.red);
+                        if (value.favouriteKeys.contains(widget.id)) {
+                          value.deleteItem(widget.id);
                         } else {
-                          value.addFavourties(
-                              id: widget.id,
-                              name: widget.shoename,
-                              imgUrl: widget.imgUrl,
-                              price: widget.price);
-                          ToastMessage.showToast(
-                              context, "Added to favourites", Colors.green);
+                          final data = FavouriteItem(
+                            id: widget.id,
+                            name: widget.shoename,
+                            imgUrl: widget.imgUrl,
+                            price: widget.price,
+                          );
+                          value.addItem(data, widget.id);
                         }
                       },
-                      icon: favouriteItems.containsKey(widget.id)
+                      icon: value.favouriteKeys.contains(widget.id)
                           ? const Icon(
                               Icons.favorite,
                               color: Color(0xFFFF8282),
