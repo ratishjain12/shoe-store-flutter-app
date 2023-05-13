@@ -17,6 +17,7 @@ void main() async {
   var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter<CartItem>(CartItemAdapter());
+  Hive.registerAdapter<FavouriteItem>(FavouriteItemAdapter());
   Stripe.publishableKey = publishableKey;
   await Hive.openBox('onboarding');
   runApp(MultiProvider(providers: [

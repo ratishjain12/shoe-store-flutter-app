@@ -15,6 +15,7 @@ class FavouritePage extends StatefulWidget {
 class _FavouritePageState extends State<FavouritePage> {
   @override
   Widget build(BuildContext context) {
+    context.watch<Favourites>().getItem();
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -28,8 +29,7 @@ class _FavouritePageState extends State<FavouritePage> {
         body: SafeArea(
           child: Consumer<Favourites>(
             builder: ((context, value, child) {
-              Map<int, dynamic> item = value.items;
-              return item.isEmpty
+              return value.favouriteList.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -50,17 +50,17 @@ class _FavouritePageState extends State<FavouritePage> {
                       children: [
                         Expanded(
                           child: ListView.builder(
-                              itemCount: item.length,
+                              itemCount: value.favouriteList.length,
                               itemBuilder: ((context, index) {
-                                int key = item.keys.elementAt(index);
+                                FavouriteItem fav = value.favouriteList[index];
 
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: FavouriteCard(
-                                      id: key,
-                                      name: item[key].name,
-                                      imgUrl: item[key].imgUrl,
-                                      price: item[key].price),
+                                      id: fav.id,
+                                      name: fav.name,
+                                      imgUrl: fav.imgUrl,
+                                      price: fav.price),
                                 );
                               })),
                         )

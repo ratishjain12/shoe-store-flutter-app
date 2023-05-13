@@ -4,7 +4,7 @@ import 'package:onlineshop_provider/ui/individualshoes.dart';
 import 'package:provider/provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 
-class LatestShoeCard extends StatelessWidget {
+class LatestShoeCard extends StatefulWidget {
   final int id;
   final String name;
   final int price;
@@ -20,23 +20,27 @@ class LatestShoeCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<LatestShoeCard> createState() => _LatestShoeCardState();
+}
+
+class _LatestShoeCardState extends State<LatestShoeCard> {
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Consumer<Favourites>(
       builder: ((context, value, child) {
-        Map<int, dynamic> favItems = value.items;
         return GestureDetector(
           onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => IndividualShoe(
-                          shoename: name,
-                          price: price,
-                          category: category,
-                          imgUrl: imgUrl,
-                          id: id,
+                          shoename: widget.name,
+                          price: widget.price,
+                          category: widget.category,
+                          imgUrl: widget.imgUrl,
+                          id: widget.id,
                         )));
           },
           child: Container(
@@ -59,25 +63,37 @@ class LatestShoeCard extends StatelessWidget {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(20)),
                           image: DecorationImage(
-                              fit: BoxFit.cover, image: NetworkImage(imgUrl)),
+                              fit: BoxFit.cover,
+                              image: NetworkImage(widget.imgUrl)),
                         ),
                       ),
                     ),
                     Align(
                       alignment: Alignment.topRight,
                       child: IconButton(
-                          color: const Color(0xFFFF8282),
-                          splashRadius: 1,
-                          onPressed: () {
-                            value.addFavourties(
-                                id: id,
-                                name: name,
-                                imgUrl: imgUrl,
-                                price: price);
-                          },
-                          icon: Icon(favItems.containsKey(id)
-                              ? Icons.favorite
-                              : Icons.favorite_border)),
+                        splashRadius: 1,
+                        onPressed: () {
+                          if (value.favouriteKeys.contains(widget.id)) {
+                            value.deleteItem(widget.id);
+                            print("item deleted");
+                          } else {
+                            final data = FavouriteItem(
+                              id: widget.id,
+                              name: widget.name,
+                              imgUrl: widget.imgUrl,
+                              price: widget.price,
+                            );
+                            value.addItem(data, widget.id);
+                            print("item added");
+                          }
+                        },
+                        icon: value.favouriteKeys.contains(widget.id)
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Color(0xFFFF8282),
+                              )
+                            : const Icon(Icons.favorite_border),
+                      ),
                     ),
                   ],
                 ),

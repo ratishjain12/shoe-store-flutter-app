@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/latestshoes.dart';
@@ -21,7 +22,6 @@ class _MenSectionState extends State<MenSection> {
 
   @override
   void initState() {
-    // TODO: implement initState
     loadJsonData();
 
     super.initState();
@@ -41,6 +41,7 @@ class _MenSectionState extends State<MenSection> {
   @override
   Widget build(BuildContext context) {
     final nav = Provider.of<MainScreenNotifier>(context);
+    context.watch<Favourites>().getItem();
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       body: SingleChildScrollView(
@@ -112,22 +113,26 @@ class _MenSectionState extends State<MenSection> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          int reverseIndex = _shoes.length - index - 2;
-                          return LatestShoeCard(
-                            id: _shoes[reverseIndex]['id'],
-                            name: _shoes[reverseIndex]["name"],
-                            price: _shoes[reverseIndex]["price"],
-                            imgUrl: _shoes[reverseIndex]["imageURL"],
-                            category: _shoes[reverseIndex]["category"],
-                          );
-                        }),
+                : Consumer<Favourites>(
+                    builder: (context, value, child) {
+                      return Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              int reverseIndex = _shoes.length - index - 2;
+                              return LatestShoeCard(
+                                id: _shoes[reverseIndex]['id'],
+                                name: _shoes[reverseIndex]["name"],
+                                price: _shoes[reverseIndex]["price"],
+                                imgUrl: _shoes[reverseIndex]["imageURL"],
+                                category: _shoes[reverseIndex]["category"],
+                              );
+                            }),
+                      );
+                    },
                   ),
           ],
         ),
