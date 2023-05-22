@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "272914172648",
+    "project_id": "ecommerce-shoe-app",
+    "storage_bucket": "ecommerce-shoe-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272914172648:android:b983db2537a2973997175d",
+        "android_client_info": {
+          "package_name": "com.example.onlineshop_provider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272914172648-ac3kjuaelbnt7qc8ijv1ufo04mif83t5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtEcIPRUCggN0RLE8XKdPmtM1rnLeRUDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272914172648-ac3kjuaelbnt7qc8ijv1ufo04mif83t5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272914172648-357eirah717pn21cbk4p7jtnvffjaigv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.onlineshopProvider"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

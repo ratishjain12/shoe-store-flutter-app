@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 // import 'package:google_fonts/google_fonts.dart
@@ -27,12 +26,12 @@ class CustomTile extends StatelessWidget {
         leading: Container(
           padding: EdgeInsets.all(height * 0.01),
           decoration: BoxDecoration(
-            color: Color(0xffff8282).withOpacity(0.2),
+            color: const Color(0xffff8282).withOpacity(0.2),
             shape: BoxShape.circle,
           ),
           child: Icon(
             icon,
-            color: Color(0xffff8282),
+            color: const Color(0xffff8282),
             size: 25,
           ),
         ),

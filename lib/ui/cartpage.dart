@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:hive/hive.dart';
-
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:onlineshop_provider/ui/individualshoes.dart';
@@ -286,7 +284,7 @@ class _CartPageState extends State<CartPage> {
 
       return jsonDecode(response.body);
     } catch (e) {
-      ToastMessage.showToast(context, e.toString(), Color(0xFFFF8282));
+      ToastMessage.showToast(context, e.toString(), const Color(0xFFFF8282));
     }
   }
 
