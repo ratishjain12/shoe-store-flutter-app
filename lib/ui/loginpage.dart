@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:onlineshop_provider/shared/toastmessage.dart';
+import 'package:onlineshop_provider/ui/verificationpage.dart';
 
 import '../shared/appstyle.dart';
 
@@ -15,6 +18,10 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController phoneNumber = TextEditingController();
   String initialCountry = 'IN';
   PhoneNumber number = PhoneNumber(isoCode: 'IN');
+  bool loading = false;
+  final auth = FirebaseAuth.instance;
+  String? phno;
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -66,7 +73,45 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                phno = "+91" + phoneNumber.text.trim();
+                print("PHOne NUM : " + phno!);
+                setState(() {
+                  loading = true;
+                });
+                auth.verifyPhoneNumber(
+                    phoneNumber: phno,
+                    verificationCompleted: (_) {
+                      setState(() {
+                        loading = false;
+                      });
+                    },
+                    verificationFailed: (e) {
+                      ToastMessage.showToast(
+                          context, e.toString(), const Color(0xFFFF8282));
+                      setState(() {
+                        loading = false;
+                      });
+                    },
+                    codeSent: (String verificationId, int? token) {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => VerifyScreen(
+                                    verificationId: verificationId,
+                                  )));
+                      setState(() {
+                        loading = false;
+                      });
+                    },
+                    codeAutoRetrievalTimeout: (e) {
+                      ToastMessage.showToast(
+                          context, e.toString(), Color(0xFFFF8282));
+                      setState(() {
+                        loading = false;
+                      });
+                    });
+              },
               color: const Color(0xffff8282),
               minWidth: double.infinity,
               height: height * 0.065,
