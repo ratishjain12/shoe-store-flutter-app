@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "137386364552",
+    "project_id": "shoe-store-app-74394",
+    "storage_bucket": "shoe-store-app-74394.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137386364552:android:354f2c35cb8550205c193d",
+        "android_client_info": {
+          "package_name": "com.example.onlineshop_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHbd7XWgDH46nL1l93rQRffUX1G2k2iIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

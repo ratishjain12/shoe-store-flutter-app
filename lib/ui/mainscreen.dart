@@ -25,6 +25,8 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Consumer<MainScreenNotifier>(
         builder: (context, mainScreenNotifier, child) {
       return Scaffold(
@@ -32,9 +34,11 @@ class MainScreen extends StatelessWidget {
         body: pageList[mainScreenNotifier.pageIndex],
         bottomNavigationBar: SafeArea(
             child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding:
+              EdgeInsets.symmetric(horizontal: width * 0.001, vertical: 5.0),
           child: Container(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.1, vertical: height * 0.016),
               margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
                   color: Color(0xFFFF8282),
@@ -48,6 +52,7 @@ class MainScreen extends StatelessWidget {
                             ? Icons.home
                             : Icons.home_outlined,
                         color: Colors.white,
+                        size: 25,
                       ),
                       onTap: () {
                         mainScreenNotifier.pageIndexChange = 0;
@@ -58,6 +63,7 @@ class MainScreen extends StatelessWidget {
                             ? Icons.search
                             : Icons.search_outlined,
                         color: Colors.white,
+                        size: 25,
                       ),
                       onTap: () {
                         mainScreenNotifier.pageIndexChange = 1;
@@ -68,6 +74,7 @@ class MainScreen extends StatelessWidget {
                           ? Icons.favorite
                           : Icons.favorite_border,
                       color: Colors.white,
+                      size: 25,
                     ),
                     onTap: () {
                       mainScreenNotifier.pageIndexChange = 2;
@@ -79,6 +86,7 @@ class MainScreen extends StatelessWidget {
                           ? Icons.shopping_basket
                           : Icons.shopping_basket_outlined,
                       color: Colors.white,
+                      size: 25,
                     ),
                     onTap: () {
                       mainScreenNotifier.pageIndexChange = 3;
@@ -90,6 +98,7 @@ class MainScreen extends StatelessWidget {
                           ? Icons.person
                           : Icons.person_outlined,
                       color: Colors.white,
+                      size: 25,
                     ),
                     onTap: () {
                       mainScreenNotifier.pageIndexChange = 4;
