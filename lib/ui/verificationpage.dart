@@ -14,6 +14,7 @@ class VerifyScreen extends StatefulWidget {
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
+  bool _isLoading = false;
   TextEditingController otpController = TextEditingController();
   final auth = FirebaseAuth.instance;
 

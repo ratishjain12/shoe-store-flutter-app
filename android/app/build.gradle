@@ -68,6 +68,11 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+<<<<<<< HEAD
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+=======
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+>>>>>>> 08435e92659eacaf2f635eabc66d2432fdeca079
 }

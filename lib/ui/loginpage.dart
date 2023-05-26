@@ -15,7 +15,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+<<<<<<< HEAD
   bool isLoggedin = false;
+=======
+>>>>>>> 08435e92659eacaf2f635eabc66d2432fdeca079
   TextEditingController phoneNumber = TextEditingController();
   String initialCountry = 'IN';
   PhoneNumber number = PhoneNumber(isoCode: 'IN');

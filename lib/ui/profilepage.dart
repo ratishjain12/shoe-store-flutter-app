@@ -19,14 +19,11 @@ class _ProfilePageState extends State<ProfilePage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            "Account",
-            style: appstyle(22, Colors.white, FontWeight.w600),
-          ),
-          backgroundColor: const Color(0xFFFF8282),
-          centerTitle: true,
-        ),
+            automaticallyImplyLeading: false,
+            title: Text(
+              "Account",
+              style: appstyle(22, Colors.white, FontWeight.w600),
+            )),
         body: isLoggedin
             ? Container(
                 height: height * 0.8,
