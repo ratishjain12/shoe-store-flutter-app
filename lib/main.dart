@@ -15,13 +15,14 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter<CartItem>(CartItemAdapter());
   Hive.registerAdapter<FavouriteItem>(FavouriteItemAdapter());
   Stripe.publishableKey = publishableKey;
   await Hive.openBox('onboarding');
+  await Hive.openBox('loginstatus');
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MainScreenNotifier()),
     ChangeNotifierProvider(create: (context) => Favourites()),

@@ -40,6 +40,8 @@ class _MenSectionState extends State<MenSection> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final nav = Provider.of<MainScreenNotifier>(context);
     context.watch<Favourites>().getItem();
     return Scaffold(
@@ -49,7 +51,8 @@ class _MenSectionState extends State<MenSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.symmetric(
+                  vertical: height * 0.01, horizontal: width * 0.02),
               child: Text(
                 "Men's Shoes",
                 style: appstyle(24, Colors.black, FontWeight.bold),
@@ -77,7 +80,8 @@ class _MenSectionState extends State<MenSection> {
                         }),
                   ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(
+                  vertical: height * 0.01, horizontal: width * 0.02),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

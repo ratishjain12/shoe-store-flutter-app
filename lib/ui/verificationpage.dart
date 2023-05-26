@@ -1,8 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:onlineshop_provider/shared/toastmessage.dart';
+import 'package:onlineshop_provider/ui/mainscreen.dart';
 import 'package:onlineshop_provider/ui/profilepage.dart';
+import 'package:provider/provider.dart';
+
+import '../controllers/mainscreen_provider.dart';
 
 class VerifyScreen extends StatefulWidget {
   final String verificationId;
@@ -22,6 +27,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    final mainScreenHandler =
+        Provider.of<MainScreenNotifier>(context, listen: false);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: height * 0.1),
@@ -47,20 +54,22 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     smsCode: otpController.text.toString());
                 try {
                   auth.signInWithCredential(credential);
+                  final loginStatus = Hive.box("loginstatus");
+                  loginStatus.put("status", true);
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (context) => ProfilePage(),
+                        builder: (context) => MainScreen(),
                       ));
                 } catch (e) {
                   setState(() {
                     _isLoading = false;
                   });
                   ToastMessage.showToast(
-                      context, e.toString(), Color(0xFFFF8282));
+                      context, e.toString(), const Color(0xFFFF8282));
                 }
               },
-              child: Text('Verify OTP'),
+              child: const Text('Verify OTP'),
             ),
           ],
         ),

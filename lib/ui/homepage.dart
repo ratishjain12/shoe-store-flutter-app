@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top:18.0,left: 10),
+              padding: const EdgeInsets.only(top: 18.0, left: 10),
               child: Text(
                 "Explore",
                 style: appstyle(40, Colors.black, FontWeight.bold),
@@ -45,9 +45,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(
                   vertical: height * 0.01, horizontal: width * 0.03),
               margin: EdgeInsets.only(
-                  left: width * 0.2,
-                  top: height * 0.01,
-                  bottom: height * 0.01),
+                  left: width * 0.2, top: height * 0.01, bottom: height * 0.01),
               decoration: const BoxDecoration(
                 color: Color(0xFFFAFAFA),
                 borderRadius: BorderRadius.all(Radius.circular(18)),
@@ -109,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(
               width: double.maxFinite,
-              height: MediaQuery.of(context).size.height * 0.72,
+              height: MediaQuery.of(context).size.height * 0.7,
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,

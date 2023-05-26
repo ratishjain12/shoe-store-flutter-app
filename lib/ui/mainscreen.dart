@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -12,9 +14,14 @@ import 'package:provider/provider.dart';
 
 import '../shared/bottomtabs.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   List<Widget> pageList = const [
     HomePage(),
     SearchPage(),
@@ -23,8 +30,28 @@ class MainScreen extends StatelessWidget {
     ProfilePage(),
   ];
 
+  final auth = FirebaseAuth.instance;
+
+  void setNumber() {
+    final MainScreenContext =
+        Provider.of<MainScreenNotifier>(context, listen: false);
+    if (FirebaseAuth.instance.currentUser != null) {
+      MainScreenContext.changeUserPhone =
+          FirebaseAuth.instance.currentUser!.phoneNumber.toString();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setNumber();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Consumer<MainScreenNotifier>(
         builder: (context, mainScreenNotifier, child) {
       return Scaffold(
@@ -32,9 +59,11 @@ class MainScreen extends StatelessWidget {
         body: pageList[mainScreenNotifier.pageIndex],
         bottomNavigationBar: SafeArea(
             child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding:
+              EdgeInsets.symmetric(horizontal: width * 0.001, vertical: 5.0),
           child: Container(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.1, vertical: height * 0.016),
               margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
                   color: Color(0xFFFF8282),
@@ -48,6 +77,7 @@ class MainScreen extends StatelessWidget {
                             ? Icons.home
                             : Icons.home_outlined,
                         color: Colors.white,
+                        size: 25,
                       ),
                       onTap: () {
                         mainScreenNotifier.pageIndexChange = 0;
@@ -58,6 +88,7 @@ class MainScreen extends StatelessWidget {
                             ? Icons.search
                             : Icons.search_outlined,
                         color: Colors.white,
+                        size: 25,
                       ),
                       onTap: () {
                         mainScreenNotifier.pageIndexChange = 1;
@@ -68,6 +99,7 @@ class MainScreen extends StatelessWidget {
                           ? Icons.favorite
                           : Icons.favorite_border,
                       color: Colors.white,
+                      size: 25,
                     ),
                     onTap: () {
                       mainScreenNotifier.pageIndexChange = 2;
@@ -79,6 +111,7 @@ class MainScreen extends StatelessWidget {
                           ? Icons.shopping_basket
                           : Icons.shopping_basket_outlined,
                       color: Colors.white,
+                      size: 25,
                     ),
                     onTap: () {
                       mainScreenNotifier.pageIndexChange = 3;
@@ -90,6 +123,7 @@ class MainScreen extends StatelessWidget {
                           ? Icons.person
                           : Icons.person_outlined,
                       color: Colors.white,
+                      size: 25,
                     ),
                     onTap: () {
                       mainScreenNotifier.pageIndexChange = 4;

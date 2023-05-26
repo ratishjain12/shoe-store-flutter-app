@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
             child: MaterialButton(
               onPressed: () {
                 phno = "+91" + phoneNumber.text.trim();
-                print("PHOne NUM : " + phno!);
+                print("Phone num: " + phno!);
                 setState(() {
                   loading = true;
                 });
