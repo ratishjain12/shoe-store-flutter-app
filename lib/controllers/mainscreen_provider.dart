@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 class MainScreenNotifier extends ChangeNotifier {
   int _pageIndex = 0;
 
+  String? userPhone = "";
+
+  String? get getUserPhone => userPhone;
+
+  set changeUserPhone(String val) {
+    userPhone = val;
+    notifyListeners();
+  }
+
   int get pageIndex => _pageIndex;
 
   set pageIndexChange(int newIndex) {

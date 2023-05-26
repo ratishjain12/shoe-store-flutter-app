@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -12,9 +14,14 @@ import 'package:provider/provider.dart';
 
 import '../shared/bottomtabs.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   List<Widget> pageList = const [
     HomePage(),
     SearchPage(),
@@ -22,6 +29,24 @@ class MainScreen extends StatelessWidget {
     CartPage(),
     ProfilePage(),
   ];
+
+  final auth = FirebaseAuth.instance;
+
+  void setNumber() {
+    final MainScreenContext =
+        Provider.of<MainScreenNotifier>(context, listen: false);
+    if (FirebaseAuth.instance.currentUser != null) {
+      MainScreenContext.changeUserPhone =
+          FirebaseAuth.instance.currentUser!.phoneNumber.toString();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setNumber();
+  }
 
   @override
   Widget build(BuildContext context) {

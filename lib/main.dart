@@ -22,6 +22,7 @@ void main() async {
   Hive.registerAdapter<FavouriteItem>(FavouriteItemAdapter());
   Stripe.publishableKey = publishableKey;
   await Hive.openBox('onboarding');
+  await Hive.openBox('loginstatus');
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MainScreenNotifier()),
     ChangeNotifierProvider(create: (context) => Favourites()),
