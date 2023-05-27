@@ -35,6 +35,8 @@ class _LoginPageState extends State<LoginPage> {
           },
           icon: const Icon(Icons.close),
         ),
+        title: const Text("Account Login"),
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
