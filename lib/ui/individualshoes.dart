@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:onlineshop_provider/controllers/cart_provider.dart';
@@ -72,6 +74,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
                             imgUrl: widget.imgUrl,
                             price: widget.price,
                           );
+
                           value.addItem(data, widget.id);
                         }
                       },
@@ -120,13 +123,27 @@ class _IndividualShoeState extends State<IndividualShoe> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
               onTap: () {
-                final data = CartItem(
-                    id: widget.id,
-                    name: widget.shoename,
-                    imgUrl: widget.imgUrl,
-                    price: widget.price,
-                    qty: 1);
-                cart.addItem(data);
+                var itemFound = cart.inventoryList
+                    .indexWhere((element) => element.id == widget.id);
+
+                if (itemFound != -1) {
+                  final data = CartItem(
+                      id: widget.id,
+                      name: widget.shoename,
+                      imgUrl: widget.imgUrl,
+                      price: widget.price,
+                      qty: cart.inventoryList[itemFound].qty + 1);
+                  cart.updateItem(itemFound, data);
+                } else {
+                  final data = CartItem(
+                      id: widget.id,
+                      name: widget.shoename,
+                      imgUrl: widget.imgUrl,
+                      price: widget.price,
+                      qty: 1);
+                  cart.addItem(data);
+                }
+
                 // ignore: use_build_context_synchronously
                 ToastMessage.showToast(
                     context, "Item added to cart!!", const Color(0xFFFF8282));
