@@ -1,11 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import 'package:onlineshop_provider/controllers/cart_provider.dart';
 import 'package:onlineshop_provider/controllers/favourites_provider.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
-import 'package:onlineshop_provider/shared/favouriteCards.dart';
+
 import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +31,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final cart = Provider.of<Cart>(context, listen: false);
+    context.watch<Cart>().getItem();
     context.watch<Favourites>().getItem();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 232, 232),
@@ -125,7 +124,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
               onTap: () {
                 var itemFound = cart.inventoryList
                     .indexWhere((element) => element.id == widget.id);
-
+                print(itemFound);
                 if (itemFound != -1) {
                   final data = CartItem(
                       id: widget.id,
@@ -134,7 +133,7 @@ class _IndividualShoeState extends State<IndividualShoe> {
                       price: widget.price,
                       qty: cart.inventoryList[itemFound].qty + 1);
                   cart.updateItem(itemFound, data);
-                } else {
+                } else if (itemFound == -1) {
                   final data = CartItem(
                       id: widget.id,
                       name: widget.shoename,

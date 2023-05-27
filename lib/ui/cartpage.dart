@@ -173,6 +173,10 @@ class _CartPageState extends State<CartPage> {
                                                       imgUrl: inv.imgUrl,
                                                       price: inv.price,
                                                       qty: inv.qty - 1);
+                                                  if (data.qty == 0) {
+                                                    value.deleteItem(index);
+                                                    return;
+                                                  }
                                                   value.updateItem(index, data);
                                                 },
                                                 child: const Icon(Icons.remove),
