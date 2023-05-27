@@ -56,14 +56,13 @@ class _CartPageState extends State<CartPage> {
                         "No items in Cart",
                         style: appstyle(30, Colors.black, FontWeight.w600),
                       ),
-                    ),
+                    )
                   ],
                 )
               : Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: height * 0.01),
-                      height: height * 0.68,
+                      height: height * 0.65,
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -210,7 +209,7 @@ class _CartPageState extends State<CartPage> {
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         color: Color(0xFFFF8282),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -224,6 +223,8 @@ class _CartPageState extends State<CartPage> {
                               int price = value.totalPay.toInt();
                               makePayment(price.toString(), "INR");
                             },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
                             padding: EdgeInsets.symmetric(
                                 horizontal: width * 0.2,
                                 vertical: height * 0.01),

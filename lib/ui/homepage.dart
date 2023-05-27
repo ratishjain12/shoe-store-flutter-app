@@ -66,14 +66,16 @@ class _HomePageState extends State<HomePage> {
                           horizontal: 35, vertical: 8),
                       decoration: BoxDecoration(
                           color: choiceIndex == 0
-                              ? const Color(0xFF64ECC7)
+                              ? const Color(0xFFFF8282)
                               : Colors.transparent,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(22))),
                       child: Center(
                           child: Text(
                         "Men",
-                        style: appstyle(18, Colors.black, FontWeight.normal),
+                        style: choiceIndex == 0
+                            ? appstyle(18, Colors.white, FontWeight.normal)
+                            : appstyle(18, Colors.black, FontWeight.normal),
                       )),
                     ),
                   ),
@@ -91,14 +93,16 @@ class _HomePageState extends State<HomePage> {
                           horizontal: 20, vertical: 8),
                       decoration: BoxDecoration(
                           color: choiceIndex == 1
-                              ? const Color(0xFF64ECC7)
+                              ? const Color(0xFFFF8282)
                               : Colors.transparent,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(22))),
                       child: Center(
                           child: Text(
                         "Women",
-                        style: appstyle(18, Colors.black, FontWeight.normal),
+                        style: choiceIndex == 1
+                            ? appstyle(18, Colors.white, FontWeight.normal)
+                            : appstyle(18, Colors.black, FontWeight.normal),
                       )),
                     ),
                   ),

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hive/hive.dart';
 
 import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
@@ -15,14 +17,14 @@ import 'package:provider/provider.dart';
 import '../shared/bottomtabs.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({super.key});
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> pageList = const [
+  final List<Widget> pageList = const [
     HomePage(),
     SearchPage(),
     FavouritePage(),
@@ -33,23 +35,20 @@ class _MainScreenState extends State<MainScreen> {
   final auth = FirebaseAuth.instance;
 
   void setNumber() {
-    final MainScreenContext =
+    final mainScreenContext =
         Provider.of<MainScreenNotifier>(context, listen: false);
     if (FirebaseAuth.instance.currentUser != null) {
-      MainScreenContext.changeUserPhone =
+      mainScreenContext.changeUserPhone =
           FirebaseAuth.instance.currentUser!.phoneNumber.toString();
     }
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setNumber();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      // add your code here.
+      setNumber();
+    });
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Consumer<MainScreenNotifier>(
