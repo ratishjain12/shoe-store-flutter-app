@@ -1,13 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hive/hive.dart';
 import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:onlineshop_provider/ui/mainscreen.dart';
-import 'package:onlineshop_provider/ui/profilepage.dart';
-import 'package:provider/provider.dart';
-
-import '../controllers/mainscreen_provider.dart';
 
 class VerifyScreen extends StatefulWidget {
   final String verificationId;
@@ -19,16 +16,14 @@ class VerifyScreen extends StatefulWidget {
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
-  bool _isLoading = false;
+  bool isLoading = false;
   TextEditingController otpController = TextEditingController();
   final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    final mainScreenHandler =
-        Provider.of<MainScreenNotifier>(context, listen: false);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: height * 0.1),
@@ -37,7 +32,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
             TextFormField(
               controller: otpController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter 6 digit otp',
               ),
             ),
@@ -47,7 +42,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  _isLoading = true;
+                  isLoading = true;
                 });
                 final credential = PhoneAuthProvider.credential(
                     verificationId: widget.verificationId,
@@ -56,14 +51,17 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   auth.signInWithCredential(credential);
                   final loginStatus = Hive.box("loginstatus");
                   loginStatus.put("status", true);
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => MainScreen(),
-                      ));
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                    // add your code here.
+
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => const MainScreen()));
+                  });
                 } catch (e) {
                   setState(() {
-                    _isLoading = false;
+                    isLoading = false;
                   });
                   ToastMessage.showToast(
                       context, e.toString(), const Color(0xFFFF8282));

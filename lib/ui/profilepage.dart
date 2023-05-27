@@ -20,6 +20,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final loginStatus = Hive.box("loginstatus");
   final auth = FirebaseAuth.instance;
+
   String? number = "1";
 
   @override
@@ -30,7 +31,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final MainScreenContext = Provider.of<MainScreenNotifier>(context);
+    final mainScreenContext =
+        Provider.of<MainScreenNotifier>(context, listen: false);
+
+    context.watch<MainScreenNotifier>();
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -66,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: appstyle(25, Colors.black, FontWeight.bold),
                     ),
                     Text(
-                      MainScreenContext.getUserPhone!,
+                      mainScreenContext.getUserPhone!,
                       style: appstyle(15, Colors.black, FontWeight.w600),
                     ),
                     Divider(
