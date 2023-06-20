@@ -46,7 +46,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      // add your code here.
       setNumber();
     });
     final width = MediaQuery.of(context).size.width;

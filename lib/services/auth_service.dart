@@ -17,25 +17,21 @@ class AuthService {
           context, 'Number Verification completed', Color(0XFFFF8282));
     };
     PhoneVerificationFailed verificationFailed = (FirebaseAuthException e) {
-      ToastMessage.showToast(context, e.toString(), Color(0XFFFF8282));
+      ToastMessage.showToast(context, "Wrong otp", Color(0XFFFF8282));
     };
     PhoneCodeSent codeSent =
         (String verificationId, [int? forceResendingToken]) {
       ToastMessage.showToast(context, 'OTP sent', Color(0XFFFF8282));
       setData(verificationId);
     };
-    PhoneCodeAutoRetrievalTimeout retrievalTimeout = (String verificationId) {
-      ToastMessage.showToast(context, 'Time out', Color(0XFFFF8282));
-    };
+
     try {
       await auth.verifyPhoneNumber(
           phoneNumber: phno,
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
-          codeAutoRetrievalTimeout: (e) {
-            ToastMessage.showToast(context, e.toString(), Color(0xFFFF8282));
-          });
+          codeAutoRetrievalTimeout: (e) {});
     } catch (e) {
       ToastMessage.showToast(context, e.toString(), Color(0XFFFF8282));
     }
@@ -50,16 +46,13 @@ class AuthService {
           await auth.signInWithCredential(credential);
       final loginStatus = Hive.box("loginstatus");
       loginStatus.put("status", true);
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        // add your code here.
+      Navigator.push(context,
+          CupertinoPageRoute(builder: (context) => const MainScreen()));
 
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => const MainScreen()));
-      });
       ToastMessage.showToast(
           context, 'Logged in successfully', Color(0XFFFF8282));
     } catch (e) {
-      ToastMessage.showToast(context, e.toString(), Color(0XFFFF8282));
+      ToastMessage.showToast(context, "Wrong otp", Color(0XFFFF8282));
     }
   }
 }
