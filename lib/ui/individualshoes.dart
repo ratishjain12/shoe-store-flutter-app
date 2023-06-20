@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:onlineshop_provider/controllers/cart_provider.dart';
@@ -6,6 +8,8 @@ import 'package:onlineshop_provider/shared/appstyle.dart';
 
 import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:provider/provider.dart';
+
+import '../services/database_service.dart';
 
 class IndividualShoe extends StatefulWidget {
   final int id;
@@ -121,10 +125,10 @@ class _IndividualShoeState extends State<IndividualShoe> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GestureDetector(
-              onTap: () {
+              onTap: () async {
+                final user = FirebaseAuth.instance.currentUser;
                 var itemFound = cart.inventoryList
                     .indexWhere((element) => element.id == widget.id);
-                print(itemFound);
                 if (itemFound != -1) {
                   final data = CartItem(
                       id: widget.id,
@@ -133,6 +137,10 @@ class _IndividualShoeState extends State<IndividualShoe> {
                       price: widget.price,
                       qty: cart.inventoryList[itemFound].qty + 1);
                   cart.updateItem(itemFound, data);
+                  if (user != null) {
+                    await DatabaseService().addToCartItems(
+                        FirebaseAuth.instance.currentUser!.uid, data);
+                  }
                 } else if (itemFound == -1) {
                   final data = CartItem(
                       id: widget.id,
@@ -141,9 +149,12 @@ class _IndividualShoeState extends State<IndividualShoe> {
                       price: widget.price,
                       qty: 1);
                   cart.addItem(data);
+                  if (user != null) {
+                    await DatabaseService().addToCartItems(
+                        FirebaseAuth.instance.currentUser!.uid, data);
+                  }
                 }
 
-                // ignore: use_build_context_synchronously
                 ToastMessage.showToast(
                     context, "Item added to cart!!", const Color(0xFFFF8282));
               },

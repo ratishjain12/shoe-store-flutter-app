@@ -33,7 +33,6 @@ class _LoginPageState extends State<LoginPage> {
   String verificationIdFinal = '';
   String smsCode = '';
   String? phno;
-
   void startTimer() {
     const onSec = Duration(seconds: 1);
     Timer timer = Timer.periodic(onSec, (timer) {

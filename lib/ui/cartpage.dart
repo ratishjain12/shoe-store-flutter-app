@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:onlineshop_provider/services/database_service.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
 import 'package:onlineshop_provider/shared/toastmessage.dart';
 import 'package:onlineshop_provider/ui/individualshoes.dart';
@@ -305,6 +307,11 @@ class _CartPageState extends State<CartPage> {
         paymentIntent = {};
       });
       // ignore: use_build_context_synchronously
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await DatabaseService()
+            .addToDatabase(FirebaseAuth.instance.currentUser!.uid, context);
+      }
       ToastMessage.showToast(context, "Paid Successfully", Colors.green);
     } on StripeException catch (e) {
       ToastMessage.showToast(
