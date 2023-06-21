@@ -51,14 +51,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   auth.signInWithCredential(credential);
                   final loginStatus = Hive.box("loginstatus");
                   loginStatus.put("status", true);
-                  SchedulerBinding.instance.addPostFrameCallback((_) {
-                    // add your code here.
-
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const MainScreen()));
-                  });
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const MainScreen()));
                 } catch (e) {
                   setState(() {
                     isLoading = false;
