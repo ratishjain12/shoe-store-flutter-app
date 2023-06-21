@@ -8,6 +8,7 @@ import 'package:onlineshop_provider/controllers/mainscreen_provider.dart';
 import 'package:onlineshop_provider/ui/mainscreen.dart';
 
 import 'package:onlineshop_provider/ui/oboardingpage.dart';
+import 'package:onlineshop_provider/ui/userdetails_page.dart';
 
 import 'package:onlineshop_provider/utils/appconstants.dart';
 import 'package:path_provider/path_provider.dart';
