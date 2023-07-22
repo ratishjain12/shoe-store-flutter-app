@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hive/hive.dart';
+import 'package:onlineshop_provider/ui/userdetails_page.dart';
 
 import '../shared/toastmessage.dart';
 import '../ui/mainscreen.dart';
@@ -44,11 +45,16 @@ class AuthService {
           verificationId: verificationId, smsCode: smsCode);
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
+      UserMetadata metadata = auth.currentUser!.metadata;
       final loginStatus = Hive.box("loginstatus");
       loginStatus.put("status", true);
-      Navigator.push(context,
-          CupertinoPageRoute(builder: (context) => const MainScreen()));
-
+      Navigator.push(
+          context,
+          CupertinoPageRoute(
+              builder: (context) =>
+                  metadata.creationTime == metadata.lastSignInTime
+                      ? DetailsPage()
+                      : MainScreen()));
       ToastMessage.showToast(
           context, 'Logged in successfully', Color(0XFFFF8282));
     } catch (e) {

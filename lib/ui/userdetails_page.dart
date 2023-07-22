@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop_provider/shared/appstyle.dart';
+import 'package:onlineshop_provider/ui/profilepage.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});
@@ -81,7 +82,14 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               ),
               MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfilePage(),
+                      ),
+                    );
+                  },
                   color: const Color(0XFFFFFF8282),
                   minWidth: width * 0.3,
                   shape: const RoundedRectangleBorder(
